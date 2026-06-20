@@ -1,0 +1,5 @@
+#es para ignorar el ejecutable del juego, cada quien cambielo, la idea es no tener 1000 archivos de juegos con nombres distintos y hacer desorden
+Juego.exe
+
+#para ignorar el archivo de partida, se evitan mezclas
+partida.txt

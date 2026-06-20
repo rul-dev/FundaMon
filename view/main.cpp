@@ -1,42 +1,15 @@
 #include <iostream>
-#include "../model/partida.cpp";
+#include "../model/menus.cpp" 
+//ojo con esto a quien sea que lo lea, las dependencias de cada archivo, es como si se "duplicara"
+//el codigo, si pones ../model/menus.cpp aqui, y en otro archivo de otra funcion, te tirara un error de duplicados enorme
+//basta con importar lo que necesites en el archivo de tu funcion y aqui importar EL ARCHIVO DE ESA FUNCION NUEVA, no dupliques imports
 
 using namespace std;
 
 int main()
 {
     iniciarSesion();
-
-    int principalOption = 0;
-
-    while (principalOption != 3)
-    {
-        cout << "\nMenu Principal:\n";
-        cout << "1. Jugar\n";
-        cout << "2. Puntajes\n";
-        cout << "3. Salir\n";
-        cout << "Selecciona una opcion: ";
-        cin >> principalOption;
-
-        switch (principalOption)
-        {
-        case 1:
-            // TODO: llamar función de juego desde pokedex.cpp
-            cout << "[Jugar - por implementar]";
-            break;
-        case 2:
-            // TODO: llamar función de puntajes
-            cout << "[Jugar - por implementar]";
-            break;
-        case 3: 
-            // Guardar sesión y salir
-            guardarSesionAlSalir();
-            break;
-        default:
-            cout << "Opción invalida. Intenta de nuevo" << endl;
-            break;
-        }
-    }
+    menuPrincipal();
     
     return 0;
 }
