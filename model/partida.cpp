@@ -28,3 +28,27 @@ string obtenerFechaHoy(){
             ltm->tm_year + 1900); // Llena el 04d con el año, se le suma 1900 porque se cuentan los años transcurridos desde 1900
     return string(buf); // Retorna la fecha en el formato string deseado
 }
+
+// Cargar y leer las partidas desde partida.txt
+// Retornará true si el archivo existe
+
+bool cargarPartida(){
+    // Lee el archivo
+    ifstream archivo("partida.txt");
+    if(archivo.is_open()){
+        // Lee la primer línea completa del archivo y la guarda en la variable username, se usa getline por si el nombre del usuario tiene espacios
+        getline(archivo, username);
+        // Lee el dato del archivo y lo guarda en score, deja el salto de línea atascado en el proceso de lectura
+        archivo >> score;
+        // Limpia el salto de línea que dejó la lectura de score, sino se leería una línea vacía y se guardaría en la siguiente variable
+        archivo.ignore();
+        // Lee la fecha y la guarda en la variable
+        getline(archivo, ultimaFecha);
+        archivo.close();
+        existePartida = true;
+        cout << "Partida cargada correctamente" << endl;
+        return true;
+    }
+    cout << "No hay partida guardada" << endl;
+    return false;
+}
