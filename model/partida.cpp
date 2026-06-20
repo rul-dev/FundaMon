@@ -68,3 +68,47 @@ void guardarPartida(){
         cout << "No se pudo guardar la partida" << endl;
     }
 }
+
+// Iniciar sesión (cargar o crear una partida)
+
+void iniciarSesion(){
+    int loadingUserOption = 0;
+
+    cout << "\nBienvenido a Poke Devs:\n";
+    cout << "1. Continuar Partida\n";
+    cout << "2. Crear una nueva partida\n";
+    cout << "Seleccion una opción: ";
+
+    // Validamos que la opción sea 1 o 2, si no el bucle sigue
+    while (!(loadingUserOption >= 1 && loadingUserOption <= 2)){
+        cin >> loadingUserOption;
+        // Le deja saber al usuario que su opción es inválida
+        if(!(loadingUserOption >= 1 && loadingUserOption <= 2)){
+            cout << "Opción invalida. Intenta de nuevo: ";
+        }
+    }
+
+    if(loadingUserOption == 1){
+        // Continuar partida
+        if(!cargarPartida()){
+            // El .txt no existe entonces no hay partida guardada
+            cout << "Redirigiendo a creación de nueva partida..." << endl;
+            loadingUserOption = 2; // cae al bloque de nueva partida
+        }
+    }
+
+    if(loadingUserOption == 2){
+        // Nueva partida
+        // Reiniciar variables
+        score = 0;
+        ultimaFecha = obtenerFechaHoy();
+
+        cout << "Ingrese el nombre de usuario: ";
+        // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
+        cin.ignore();
+        getline(cin, username);
+
+        // Guarda el .txt con los datos iniciales
+        guardarPartida();
+    }
+}
