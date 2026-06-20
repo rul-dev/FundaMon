@@ -52,3 +52,19 @@ bool cargarPartida(){
     cout << "No hay partida guardada" << endl;
     return false;
 }
+
+// Guardar partida en partida.txt
+
+void guardarPartida(){
+    ofstream archivo("partida.txt");
+    if(archivo.is_open()){
+        archivo << username << "\n";
+        archivo << score << "\n";
+        archivo << obtenerFechaHoy() << "\n";
+        archivo.close();
+        existePartida = true;
+        cout << "Partida guardada correctamente" << endl;
+    }else{
+        cout << "No se pudo guardar la partida" << endl;
+    }
+}
