@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
     iniciarSesion();
-    menuPrincipal();
+    principalMenu();
     
     return 0;
 }
