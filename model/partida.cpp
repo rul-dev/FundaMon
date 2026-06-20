@@ -112,3 +112,21 @@ void iniciarSesion(){
         guardarPartida();
     }
 }
+
+// Guardar sesión al salir (opción 3 del menú)
+
+void guardarSesionAlSalir(){
+    char opcion;
+    cout << "\n¿Deseas guardar la partida antes de salir? (s/n): ";
+    cin >> opcion;
+    
+    if(opcion == 's' || opcion == 'S'){
+        guardarPartida();
+        cout << "Hasta luego, " << username << "!\n";
+    }else{
+        // Los datos guardados se quedan igual, solo despedimos
+        cout << "Adios, " << username << ". Los datos no fueron actualizados.\n";
+    }
+
+    existePartida = true; // la partida sigue existiendo en disco
+}
