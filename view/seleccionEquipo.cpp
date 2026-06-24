@@ -21,7 +21,28 @@ void MostrarPokemones()
     }
 }
 
-void GuardarEquipoPokemon()
+// Lógica pura de selección, recibe el equipo a llenar
+void GuardarEquipoPokemon(Equipo &miEquipo)
 {
-    cout << "Bienvenido es el turno de elegir tu equipo pokemon(solo puedes elegir 6 max)" << endl;
+    MostrarPokemones();
+    cout << "\n-------------------------------------------------------------------------\n";
+
+    for (int i = 0; i < 6; i++)
+    {
+        int opcion;
+        cout << "\nElige a tu Pokemon #" << (i + 1) << " (Ingresa el numero 1-30): ";
+        cin >> opcion;
+
+        while (opcion < 1 || opcion > 30)
+        {
+            cout << "Opcion invalida. Intenta de nuevo: ";
+            cin >> opcion;
+        }
+
+        miEquipo.pokemon[i] = pokedexDisponible[opcion - 1];
+        cout << "-> ¡" << miEquipo.pokemon[i].nombre << " se ha unido a tu equipo!" << endl;
+    }
+    
+    cout << "\n¡Equipo guardado con exito!\n";
 }
+

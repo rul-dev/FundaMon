@@ -10,6 +10,5 @@ int main()
 {
     iniciarSesion();
     principalMenu();
-    
     return 0;
 }
