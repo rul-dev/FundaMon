@@ -27,6 +27,22 @@ void MostrarPokemones()
     }
 }
 
+//Pasamos el equipo actual que tengamos y el turno en el que van 
+void MostrarProgresoEquipo(Equipo equipoTemporal , int turnoActual)
+{
+  cout << "\n--- Tu equipo actual ---" << endl;
+
+//nuestro limite sera el turno actual que se paso
+  for (int x = 0; x < turnoActual; x++)
+  {
+ // se imprime el numero de lista y el nombre del pokemon n
+   cout << x + 1 << ". " << equipoTemporal.pokemon[x].nombre << endl;
+  }
+  
+cout << "------------------------\n" << endl;
+
+}
+
 void GuardarEquipoPokemon()
 {
     // Mensaje de bienvenida indicando la regla del juego (6 max).
@@ -88,12 +104,10 @@ void GuardarEquipoPokemon()
             i--;
         }
         
-        // IMPRIMIR EL PROGRESO DEL EQUIPO
-        // Usamos una nueva variable 'x' para recorrer y mostrar todos los Pokémon desde la posición 0 hasta la posición actual 'i'.
-        for (int x = 0; x <= i; x++)
-        {
-            cout << temp.pokemon[x].nombre << endl;
-        }
+       //SE IMPRIME EL PROGRESO DEL EQUIPO
+       //sE LLAMA LA FUNCION Y LE DAMOS LAS VARIABLES TEMPORALES
+
+      MostrarProgresoEquipo(temp,i);
         
     } // Llave de cierre del ciclo principal
     
