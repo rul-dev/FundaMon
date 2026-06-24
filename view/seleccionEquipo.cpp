@@ -33,7 +33,7 @@ void MostrarProgresoEquipo(Equipo equipoTemporal , int turnoActual)
   cout << "\n--- Tu equipo actual ---" << endl;
 
 //nuestro limite sera el turno actual que se paso
-  for (int x = 0; x < turnoActual; x++)
+  for (int x = 0; x<= turnoActual; x++)
   {
  // se imprime el numero de lista y el nombre del pokemon n
    cout << x + 1 << ". " << equipoTemporal.pokemon[x].nombre << endl;
