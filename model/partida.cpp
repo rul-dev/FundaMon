@@ -46,6 +46,7 @@ bool cargarPartida(){
         getline(archivo, ultimaFecha);
         archivo.close();
         existePartida = true;
+        system("cls");
         cout << "Partida cargada correctamente" << endl;
         return true;
     }
@@ -63,6 +64,7 @@ void guardarPartida(){
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
+        system("cls");
         cout << "Partida guardada correctamente" << endl;
     }else{
         cout << "No se pudo guardar la partida" << endl;

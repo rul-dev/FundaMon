@@ -21,6 +21,7 @@ void principalMenu()
         cout << "3. Salir\n";
         cout << "Selecciona una opcion: ";
         cin >> principalOption;
+        system("cls");
 
         switch (principalOption)
         {
@@ -91,6 +92,8 @@ void fightMenu()
         {
         case 1:
             {
+                // TODO: Validar que se pueda regresar
+                system("cls");
                 // Llamamos a la función y guardamos qué ataque eligió
                 int indiceAtaque = seleccionarAtaque();
                 
@@ -105,6 +108,7 @@ void fightMenu()
         case 2:
             {
                 // Llamamos a la función de cambio
+                system("cls");
                 cambiarPokemonBatalla();
                 
                 // TODO: Como cambiaste de Pokémon, pierdes tu turno de atacar. 
