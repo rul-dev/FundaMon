@@ -119,7 +119,7 @@ void iniciarSesion(){
 
 void guardarSesionAlSalir(){
     char opcion;
-    cout << "\n¿Deseas guardar la partida antes de salir? (s/n): ";
+    cout << "\nDeseas guardar la partida antes de salir? (s/n): ";
     cin >> opcion;
     
     if(opcion == 's' || opcion == 'S'){

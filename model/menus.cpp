@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "../model/partida.cpp"
 #include "../model/batalla.cpp"
 
@@ -11,6 +12,8 @@ void fightMenu();
 // El menu principal despues de crear o continuar una partida
 void principalMenu()
 {
+    
+
     int principalOption = 0;
 
     while (principalOption != 3)
@@ -26,28 +29,7 @@ void principalMenu()
         switch (principalOption)
         {
         case 1:
-            // Toda la narrativa de inicio de aventura ocurre aquí de forma exclusiva
-            cout << "\n=============================================\n";
-            cout << "            INICIANDO LA AVENTURA!            \n";
-            cout << "=============================================\n";
-            cout << "Bienvenido. Es el turno de elegir tu equipo pokemon (solo puedes elegir 6 max)\n";
-            cout << "-------------------------------------------------------------------------\n";
-
-            // 1. Armas tu equipo aliado
-            prepararFaseSeleccion();
-
-            // 2. Armas el equipo enemigo al azar (Asegúrate de haber puesto esta función en batalla.cpp)
-            generarEquipoEnemigo();
-            cout << "\n-> ¡El rival ha preparado su equipo de forma aleatoria!\n";
-            cout << "\n¡El oponente te desafia! Preparate...\n";
-
-            // 3. ¡PASO CRÍTICO! Reiniciamos las variables de control de la arena
-            // Esto asegura que ambos equipos empiecen sanos y con su primer Pokémon [0]
-            activePokemon = 0;
-            activePokemonEnemy = 0;
-            aliadoVivo = true;
-            enemigoVivo = true;
-
+            iniciarBatalla();
             // 4. Entramos al flujo de turnos
             fightMenu();
             break;
@@ -68,6 +50,8 @@ void principalMenu()
 // menú de batalla despues de darle a jugar
 void fightMenu()
 {
+    //PlaySound(TEXT("Battle_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    //Sleep(30000);
     int fightOption = 0;
 
     // WHILE GIGANTE DEL DIAGRAMA: Controla que nadie haya perdido y que no se haya huido
@@ -85,41 +69,53 @@ void fightMenu()
         cout << "2. Cambiar\n";
         cout << "3. Huir\n";
         cout << "---------------------------------------------\n";
-        cout << "¿Que quieres hacer?: ";
+        cout << "Que quieres hacer?: ";
         cin >> fightOption;
 
         switch (fightOption)
         {
         case 1:
-            {
-                // TODO: Validar que se pueda regresar
+        {
+            // TODO: Validar que se pueda regresar
+            system("cls");
+            // Llamamos a la función y guardamos qué ataque eligió
+            int indiceAtaque = seleccionarAtaque();
+
+            if (indiceAtaque == -1)
+            { // Eligió regresar
                 system("cls");
-                // Llamamos a la función y guardamos qué ataque eligió
-                int indiceAtaque = seleccionarAtaque();
-                
-                cout << "\n-> ¡" << equipoAliado.pokemon[activePokemon].nombre 
-                     << " se prepara para usar " 
-                     << equipoAliado.pokemon[activePokemon].movimientos[indiceAtaque].nombre << "!\n";
-                
-                // TODO: Aquí irá el bloque gigante de tu diagrama donde se calcula la velocidad, 
-                // la efectividad y se resta la vida.
+                break;
             }
-            break;
+
+            cout << "\n-> " << equipoAliado.pokemon[activePokemon].nombre
+                 << " se prepara para usar "
+                 << equipoAliado.pokemon[activePokemon].movimientos[indiceAtaque].nombre << "!\n";
+
+            // TODO: Aquí irá el bloque gigante de tu diagrama donde se calcula la velocidad,
+            // la efectividad y se resta la vida.
+        }
+        break;
         case 2:
-            {
-                // Llamamos a la función de cambio
-                system("cls");
-                cambiarPokemonBatalla();
-                
-                // TODO: Como cambiaste de Pokémon, pierdes tu turno de atacar. 
-                // Aquí el enemigo te atacará directamente.
-            }
-            break;
+        {
+            // TODO: Validar que se pueda regresar
+            // Llamamos a la función de cambio
+            system("cls");
+            cambiarPokemonBatalla();
+            system("cls");
+
+            // TODO: Como cambiaste de Pokémon, pierdes tu turno de atacar.
+            // Aquí el enemigo te atacará directamente.
+        }
+        break;
         case 3:
-            cout << "\n¡Has huido de la batalla de forma segura!" << endl;
+            system("cls");
+            cout << "\nHas huido de la batalla de forma segura!" << endl;
+            Sleep(500);
             break;
         default:
-            cout << "\n¡Elige alguna de las 3 opciones válidas! " << endl;
+            system("cls");
+            cout << "\nElige alguna de las 3 opciones validas! " << endl;
+            Sleep(500);
             break;
         }
     }
@@ -134,7 +130,7 @@ void fightMenu()
     else if (!enemigoVivo)
     {
         cout << "\n=============================================\n";
-        cout << "     ¡VICTORIA! ¡Has ganado la batalla!       \n";
+        cout << "     VICTORIA! Has ganado la batalla!       \n";
         cout << "=============================================\n";
     }
 }
