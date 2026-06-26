@@ -40,11 +40,11 @@ void GuardarEquipoPokemon(Equipo &miEquipo)
         }
 
         miEquipo.pokemon[i] = pokedexDisponible[opcion - 1];
-        cout << "-> ¡" << miEquipo.pokemon[i].nombre << " se ha unido a tu equipo!" << endl;
+        cout << "-> " << miEquipo.pokemon[i].nombre << " se ha unido a tu equipo!" << endl;
     }
 
     system("cls");
     
-    cout << "\n¡Equipo guardado con exito!\n";
+    cout << "\nEquipo guardado con exito!\n";
 }
 
