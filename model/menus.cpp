@@ -12,7 +12,6 @@ void fightMenu();
 // El menu principal despues de crear o continuar una partida
 void principalMenu()
 {
-    
 
     int principalOption = 0;
 
@@ -50,19 +49,16 @@ void principalMenu()
 // menú de batalla despues de darle a jugar
 void fightMenu()
 {
-    //PlaySound(TEXT("Battle_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC);
-    //Sleep(30000);
     int fightOption = 0;
 
-    // WHILE GIGANTE DEL DIAGRAMA: Controla que nadie haya perdido y que no se haya huido
+    // El ciclo se ejecuta mientras ambos lados sigan en condiciones de pelear y no se huya
     while (fightOption != 3 && aliadoVivo == true && enemigoVivo == true)
     {
-        // Bloques del diagrama: "Mostrar Pokémon del jugador" y "Mostrar Pokémon del enemigo"
         cout << "\n---------------------------------------------\n";
         cout << " TU POKEMON: " << equipoAliado.pokemon[activePokemon].nombre
-             << " (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n";
+             << " Nv.60 (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n";
         cout << " RIVAL:      " << equipoEnemigo.pokemon[activePokemonEnemy].nombre
-             << " (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n";
+             << " Nv.60 (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n";
         cout << "---------------------------------------------\n";
 
         cout << "1. Luchar\n";
@@ -76,42 +72,43 @@ void fightMenu()
         {
         case 1:
         {
-            // TODO: Validar que se pueda regresar
             system("cls");
-            // Llamamos a la función y guardamos qué ataque eligió
             int indiceAtaque = seleccionarAtaque();
 
             if (indiceAtaque == -1)
-            { // Eligió regresar
+            {
                 system("cls");
-                break;
+                break; // El jugador decidió regresar al menú de combate anterior
             }
-
-            cout << "\n-> " << equipoAliado.pokemon[activePokemon].nombre
-                 << " se prepara para usar "
-                 << equipoAliado.pokemon[activePokemon].movimientos[indiceAtaque].nombre << "!\n";
-
-            // TODO: Aquí irá el bloque gigante de tu diagrama donde se calcula la velocidad,
-            // la efectividad y se resta la vida.
+            ejecutarTurno(indiceAtaque);
         }
         break;
+
         case 2:
         {
-            // TODO: Validar que se pueda regresar
-            // Llamamos a la función de cambio
             system("cls");
+            // Guardamos el índice del Pokémon antes de abrir el catálogo de cambios
+            int pokemonPrevio = activePokemon;
+
             cambiarPokemonBatalla();
             system("cls");
 
-            // TODO: Como cambiaste de Pokémon, pierdes tu turno de atacar.
-            // Aquí el enemigo te atacará directamente.
+            // Si activePokemon cambió, significa que el usuario concretó un cambio válido
+            // (No aplica si presionó '0' para arrepentirse y regresar)
+            if (activePokemon != pokemonPrevio)
+            {
+                // Invocamos la nueva función del motor de batalla
+                procesarContraataquePorCambio();
+            }
         }
         break;
+
         case 3:
             system("cls");
             cout << "\nHas huido de la batalla de forma segura!" << endl;
             Sleep(500);
             break;
+
         default:
             system("cls");
             cout << "\nElige alguna de las 3 opciones validas! " << endl;
@@ -120,7 +117,7 @@ void fightMenu()
         }
     }
 
-    // Al salir del bucle, verificamos si terminó por derrota o por huida
+    // Al romperse el bucle por derrota de algún bando, evaluamos el fin de juego
     if (!aliadoVivo)
     {
         cout << "\n=============================================\n";
