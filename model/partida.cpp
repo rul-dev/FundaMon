@@ -132,3 +132,11 @@ void guardarSesionAlSalir(){
 
     existePartida = true; // la partida sigue existiendo en disco
 }
+
+
+void mostrarPuntuaje(int score)
+{
+   
+    cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
+    
+}

@@ -19,7 +19,7 @@ void MostrarPokemones()
         cout << i + 1 << ". " << pokedexDisponible[i].nombre << "\t";
         
         // Un pequeño truco matemático: si el número de la lista es múltiplo de 3, damos un salto de línea.
-        // Esto hace que la lista en la consola se imprima de forma ordenada en columnas de 3 en 3.
+
         if ((i + 1) % 3 == 0)
         {
             cout << endl;
@@ -43,17 +43,13 @@ cout << "------------------------\n" << endl;
 
 }
 
-void GuardarEquipoPokemon()
+void GuardarEquipoPokemon(Equipo &equipoDestino)
 {
     // Mensaje de bienvenida indicando la regla del juego (6 max).
     cout << "Bienvenido es el turno de elegir tu equipo pokemon(solo puedes elegir 6 max)" << endl;
     
     // Llamamos a la función anterior para que el jugador vea el catálogo en pantalla.
     MostrarPokemones();
-    
-    // Creamos nuestra variable 'temp' del tipo Equipo. 
-    // Este será nuestro "escritorio" o memoria temporal donde guardaremos las elecciones.
-    Equipo temp;
     
     // CICLO PRINCIPAL: Controla los turnos del jugador. Dará exactamente 6 vueltas (de la 0 a la 5).
     for (int i = 0; i < 6; i++)
@@ -71,31 +67,30 @@ void GuardarEquipoPokemon()
             cin >> seleccionUser; // Lo obligamos a escribir de nuevo hasta que ponga un número correcto.
         }
         
-        // Traducimos el número que eligió el humano (1-30) al índice real del arreglo (0-29) restándole 1.
+        // Traducimos el número que eligió 
         int indiceReal = seleccionUser - 1;
 
         // EL DETECTOR DE CLONES (Validación de repetidos)
-        // Creamos una "bandera" y la iniciamos apagada (false), asumiendo que el Pokémon no está repetido.
+       
         bool pokeRep = false;
 
-        // El ciclo "j" es nuestro inspector. Solo revisa los slots que ya llenamos (j != i) para evitar revisar espacios vacíos.
+        // revisa los slots que ya llenamos (j != i) para evitar revisar espacios vacíos.
         for (int j = 0; j != i; j++)
         {
-            // Comparamos si el nombre del Pokémon nuevo es exactamente igual a alguno que ya esté en el arreglo 'temp'.
-            if (pokedexDisponible[indiceReal].nombre == temp.pokemon[j].nombre)
+            // Comparamos si el nombre del Pokémon nuevo es exactamente igual a alguno que ya esté en el arreglo del equipo destino.
+            if (pokedexDisponible[indiceReal].nombre == equipoDestino.pokemon[j].nombre)
             {
-                cout << "Pokemon repetido" << endl; // Advertencia en pantalla.
-                pokeRep = true; // Levantamos la bandera para avisar que se detectó un clon.
+                cout << "Pokemon repetido" << endl;
+                pokeRep = true; 
             }
         }
         
-        // EL VEREDICTO FINAL (Decisión de guardado)
-        // Si el ciclo inspector terminó y la bandera sigue en 'false', el Pokémon es único y pasó la prueba.
+        
         if (pokeRep == false)
         {
             // Lo guardamos oficialmente en la posición 'i' y mandamos mensaje de éxito.
-            temp.pokemon[i] = pokedexDisponible[indiceReal];
-            cout << "¡Has agregado a " << temp.pokemon[i].nombre << " a tu equipo!" << endl;
+            equipoDestino.pokemon[i] = pokedexDisponible[indiceReal];
+            cout << "¡Has agregado a " << equipoDestino.pokemon[i].nombre << " a tu equipo!" << endl;
         }
         else
         {
@@ -107,7 +102,7 @@ void GuardarEquipoPokemon()
        //SE IMPRIME EL PROGRESO DEL EQUIPO
        //sE LLAMA LA FUNCION Y LE DAMOS LAS VARIABLES TEMPORALES
 
-      MostrarProgresoEquipo(temp,i);
+      MostrarProgresoEquipo(equipoDestino,i);
         
     } // Llave de cierre del ciclo principal
     

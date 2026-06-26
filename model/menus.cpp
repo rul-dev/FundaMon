@@ -121,13 +121,15 @@ void fightMenu()
     if (!aliadoVivo)
     {
         cout << "\n=============================================\n";
-        cout << "      GAME OVER - Has sido derrotado         \n";
+        cout << "      GAME OVER - Has sido derrotado         "<<endl;
+        mostrarPuntuaje(score);
         cout << "=============================================\n";
     }
     else if (!enemigoVivo)
     {
         cout << "\n=============================================\n";
-        cout << "     VICTORIA! Has ganado la batalla!       \n";
+        cout << "     VICTORIA! Has ganado la batalla!       \n"<<endl;
+          mostrarPuntuaje(score);
         cout << "=============================================\n";
     }
 }
