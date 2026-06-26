@@ -9,6 +9,7 @@ using namespace std;
 
 string username = "";
 int score = 0;
+int puntosBatallaActual = 0;
 string ultimaFecha = "";
 bool existePartida = false;
 
@@ -64,7 +65,6 @@ void guardarPartida(){
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
-        system("cls");
         cout << "Partida guardada correctamente" << endl;
     }else{
         cout << "No se pudo guardar la partida" << endl;
@@ -103,6 +103,7 @@ void iniciarSesion(){
         // Nueva partida
         // Reiniciar variables
         score = 0;
+        puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
         cout << "Ingrese el nombre de usuario: ";

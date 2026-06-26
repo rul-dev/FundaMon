@@ -118,18 +118,35 @@ void fightMenu()
     }
 
     // Al romperse el bucle por derrota de algún bando, evaluamos el fin de juego
-    if (!aliadoVivo)
+    if (fightOption != 3)
+    {
+        score += puntosBatallaActual;
+    }
+
+    if (fightOption == 3)
     {
         cout << "\n=============================================\n";
-        cout << "      GAME OVER - Has sido derrotado         "<<endl;
-        mostrarPuntuaje(score);
+        cout << "        Has huido de la batalla              " << endl;
+        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "=============================================\n";
+    }
+    else if (!aliadoVivo)
+    {
+        cout << "\n=============================================\n";
+        cout << "      GAME OVER - Has sido derrotado         " << endl;
+        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
         cout << "=============================================\n";
     }
     else if (!enemigoVivo)
     {
         cout << "\n=============================================\n";
-        cout << "     VICTORIA! Has ganado la batalla!       \n"<<endl;
-          mostrarPuntuaje(score);
+        cout << "     VICTORIA! Has ganado la batalla!       \n" << endl;
+        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
         cout << "=============================================\n";
     }
+
+    guardarPartida();
 }
