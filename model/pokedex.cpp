@@ -62,7 +62,7 @@ Pokemon pokedexDisponible[30] = {
             {"Golpe Bajo", "Siniestro", 70, false},
             {"Bola Sombra", "Fantasma", 80, true},
             {"Carga Toxica", "Veneno", 65, true},
-            {"Puño Sombra", "Fantasma", 60, false}
+            {"Punio Sombra", "Fantasma", 60, false}
         }
     },
     {
@@ -215,10 +215,10 @@ Pokemon pokedexDisponible[30] = {
         {"Acero", "Psiquico"}, 
         80, 70, 135, 95, 130, 90,
         {
-            {"Puño Meteoro", "Acero", 90, false},
+            {"Punio Meteoro", "Acero", 90, false},
             {"Cabezazo Zen", "Psiquico", 80, false},
             {"Terremoto", "Tierra", 100, false},
-            {"Puño Bala", "Acero", 40, false}
+            {"Punio Bala", "Acero", 40, false}
         }
     },
     {
@@ -251,7 +251,7 @@ Pokemon pokedexDisponible[30] = {
         {"Lucha", "Fantasma"}, 
         110, 90, 115, 50, 80, 90,
         {
-            {"Puño Furia", "Fantasma", 50, false},
+            {"Punio Furia", "Fantasma", 50, false},
             {"A Bocajarro", "Lucha", 120, false},
             {"Garra Umbria", "Fantasma", 70, false},
             {"Enfado", "Dragon", 120, false}
@@ -288,7 +288,7 @@ Pokemon pokedexDisponible[30] = {
         110, 88, 135, 60, 60, 65, // hp, velocidad, ataque, ataqueEsp, defensa, defensaEsp
         {
             {"Terremoto", "Tierra", 100, false},
-            {"Puño Meteoro", "Acero", 90, false},
+            {"Punio Meteoro", "Acero", 90, false},
             {"Roca Afilada", "Roca", 100, false},
             {"Tijera X", "Bicho", 80, false}
         }

@@ -46,6 +46,7 @@ bool cargarPartida(){
         getline(archivo, ultimaFecha);
         archivo.close();
         existePartida = true;
+        system("cls");
         cout << "Partida cargada correctamente" << endl;
         return true;
     }
@@ -63,6 +64,7 @@ void guardarPartida(){
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
+        system("cls");
         cout << "Partida guardada correctamente" << endl;
     }else{
         cout << "No se pudo guardar la partida" << endl;
@@ -77,7 +79,7 @@ void iniciarSesion(){
     cout << "\nBienvenido a Poke Devs:\n";
     cout << "1. Continuar Partida\n";
     cout << "2. Crear una nueva partida\n";
-    cout << "Seleccion una opción: ";
+    cout << "Seleccion una opcion: ";
 
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
     while (!(loadingUserOption >= 1 && loadingUserOption <= 2)){
@@ -92,7 +94,7 @@ void iniciarSesion(){
         // Continuar partida
         if(!cargarPartida()){
             // El .txt no existe entonces no hay partida guardada
-            cout << "Redirigiendo a creación de nueva partida..." << endl;
+            cout << "Redirigiendo a creacion de nueva partida..." << endl;
             loadingUserOption = 2; // cae al bloque de nueva partida
         }
     }
@@ -117,7 +119,7 @@ void iniciarSesion(){
 
 void guardarSesionAlSalir(){
     char opcion;
-    cout << "\n¿Deseas guardar la partida antes de salir? (s/n): ";
+    cout << "\nDeseas guardar la partida antes de salir? (s/n): ";
     cin >> opcion;
     
     if(opcion == 's' || opcion == 'S'){
