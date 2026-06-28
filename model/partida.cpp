@@ -9,6 +9,7 @@ using namespace std;
 
 string username = "";
 int score = 0;
+int puntosBatallaActual = 0;
 string ultimaFecha = "";
 bool existePartida = false;
 
@@ -64,7 +65,6 @@ void guardarPartida(){
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
-        system("cls");
         cout << "Partida guardada correctamente" << endl;
     }else{
         cout << "No se pudo guardar la partida" << endl;
@@ -103,6 +103,7 @@ void iniciarSesion(){
         // Nueva partida
         // Reiniciar variables
         score = 0;
+        puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
         cout << "Ingrese el nombre de usuario: ";
@@ -131,4 +132,70 @@ void guardarSesionAlSalir(){
     }
 
     existePartida = true; // la partida sigue existiendo en disco
+}
+
+
+void mostrarPuntuaje(int score)
+{
+   
+    cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
+    
+}
+
+void puntosPartidas(int score, string username)
+{
+    ofstream archivoLeaderboard;
+    archivoLeaderboard.open("leaderboard.txt", ios::app);
+    
+    
+    if(archivoLeaderboard.is_open())
+    {
+          archivoLeaderboard << username << " " << score << endl;
+          archivoLeaderboard.close();
+    }
+
+    struct Records 
+    {
+        string nombre;
+        int puntuaje;
+    };
+
+    ifstream archivoLectura;
+    archivoLeaderboard.open("leaderboard.txt");
+    Records listaTop[20];
+
+   
+    int cantidadJugadores = 0;
+    
+    while ( archivoLectura>> listaTop[cantidadJugadores].nombre>>listaTop[cantidadJugadores].puntuaje)
+    {
+        cantidadJugadores++;
+    }
+     
+    for (int i = 0; i < cantidadJugadores-1; i++)
+    {
+       for ( int j = 0; j < cantidadJugadores -1; j++)
+    {
+        if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
+        {
+             Records temp;
+      temp = listaTop[j];
+      listaTop[j]= listaTop[j+1];
+        listaTop[j+1] =temp;
+    
+        }
+        
+    }
+    }
+    
+
+    
+  
+    
+    
+         
+    
+
+
+
 }

@@ -130,6 +130,7 @@ void iniciarBatalla() {
     cout << "Bienvenido. Es el turno de elegir tu equipo pokemon (solo puedes elegir 6 max)\n";
     cout << "-------------------------------------------------------------------------\n";
 
+    puntosBatallaActual = 0;
     prepararFaseSeleccion();
     generarEquipoEnemigo();
 
@@ -289,6 +290,7 @@ void ejecutarTurno(int indiceAtaque) {
         
         int danioAlEnemigo = calcularDano(equipoAliado.pokemon[activePokemon], equipoEnemigo.pokemon[activePokemonEnemy], movAliado);
         equipoEnemigo.pokemon[activePokemonEnemy].hp -= danioAlEnemigo;
+        puntosBatallaActual += danioAlEnemigo;
         cout << "-> Causo " << danioAlEnemigo << " puntos de danio.\n";
         
         // CORRECCIÓN: Si el enemigo muere aquí, ya no puede contraatacar
@@ -330,6 +332,7 @@ void ejecutarTurno(int indiceAtaque) {
         cout << "\n-> ¡" << equipoAliado.pokemon[activePokemon].nombre << " usa " << movAliado.nombre << "!\n";
         int danioAlEnemigo = calcularDano(equipoAliado.pokemon[activePokemon], equipoEnemigo.pokemon[activePokemonEnemy], movAliado);
         equipoEnemigo.pokemon[activePokemonEnemy].hp -= danioAlEnemigo;
+        puntosBatallaActual += danioAlEnemigo;
         cout << "-> Causo " << danioAlEnemigo << " puntos de danio.\n";
         
         if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
