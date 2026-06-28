@@ -141,3 +141,61 @@ void mostrarPuntuaje(int score)
     cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
     
 }
+
+void puntosPartidas(int score, string username)
+{
+    ofstream archivoLeaderboard;
+    archivoLeaderboard.open("leaderboard.txt", ios::app);
+    
+    
+    if(archivoLeaderboard.is_open())
+    {
+          archivoLeaderboard << username << " " << score << endl;
+          archivoLeaderboard.close();
+    }
+
+    struct Records 
+    {
+        string nombre;
+        int puntuaje;
+    };
+
+    ifstream archivoLectura;
+    archivoLeaderboard.open("leaderboard.txt");
+    Records listaTop[20];
+
+   
+    int cantidadJugadores = 0;
+    
+    while ( archivoLectura>> listaTop[cantidadJugadores].nombre>>listaTop[cantidadJugadores].puntuaje)
+    {
+        cantidadJugadores++;
+    }
+     
+    for (int i = 0; i < cantidadJugadores-1; i++)
+    {
+       for ( int j = 0; j < cantidadJugadores -1; j++)
+    {
+        if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
+        {
+             Records temp;
+      temp = listaTop[j];
+      listaTop[j]= listaTop[j+1];
+        listaTop[j+1] =temp;
+    
+        }
+        
+    }
+    }
+    
+
+    
+  
+    
+    
+         
+    
+
+
+
+}
