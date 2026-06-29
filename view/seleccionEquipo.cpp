@@ -45,8 +45,6 @@ cout << "------------------------\n" << endl;
 
 void GuardarEquipoPokemon(Equipo &equipoDestino)
 {
-    // Mensaje de bienvenida indicando la regla del juego (6 max).
-    cout << "Bienvenido es el turno de elegir tu equipo pokemon(solo puedes elegir 6 max)" << endl;
     
     // Llamamos a la función anterior para que el jugador vea el catálogo en pantalla.
     MostrarPokemones();
@@ -55,7 +53,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
     for (int i = 0; i < 6; i++)
     {
         int seleccionUser; // Variable para atrapar el número que el jugador teclee en la consola.
-        cout << "Elige tu pokemon segun su numero" << i + 1 << endl;
+        cout << "Elige tu pokemon segun su numero " << i + 1<<": ";
         cin >> seleccionUser; // Leemos la respuesta.
 
         // EL GUARDIA DE SEGURIDAD (Validación de rango)

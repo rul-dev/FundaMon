@@ -187,15 +187,18 @@ void puntosPartidas(int score, string username)
         
     }
     }
-    
+}
 
-    
-  
-    
-    
-         
-    
-
-
-
+void leerAscii(string nombreArchivo){ //va a esperar el nombre del archivo que le demos
+    ifstream archivo(nombreArchivo); //abre el archivo que hayamos llamado
+    string linea;
+    if(archivo.is_open()){
+        while(getline(archivo, linea)){
+            cout << linea << endl; //imprime la linea que haya leido
+        }
+        archivo.close(); // Siempre cierra el archivo al terminar
+    } else {
+        cout << "Error: No se pudo cargar el arte ASCII de " << nombreArchivo << endl;
+    }
+      
 }

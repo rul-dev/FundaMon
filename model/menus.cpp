@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <conio.h> // ¡Importante para Windows!
 #include "../model/partida.cpp"
 #include "../model/batalla.cpp"
 
@@ -8,6 +9,13 @@ using namespace std;
 // NOTE: Aqui deberian de ir TODOS los menús, es mejor para evitar redundancias de menús, si agregan algun menu, avisenme y lo pongo aquí
 
 void fightMenu();
+
+void pantallaBienvenida(){
+    system("cls");
+    leerAscii("model/assets/pokedevs.txt"); //chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
+    _getch();
+    system("cls");
+}
 
 // El menu principal despues de crear o continuar una partida
 void principalMenu()
