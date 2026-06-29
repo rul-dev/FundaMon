@@ -1,6 +1,6 @@
 #include <iostream>
 #include <windows.h>
-#include <conio.h> // ¡Importante para Windows!
+#include <conio.h> // es para el _getch
 #include "../model/partida.cpp"
 #include "../model/batalla.cpp"
 
@@ -25,13 +25,20 @@ void principalMenu()
 
     while (principalOption != 3)
     {
-        cout << "\nMenu Principal:\n";
-        cout << "1. Jugar\n";
-        cout << "2. Puntajes\n";
-        cout << "3. Salir\n";
-        cout << "Selecciona una opcion: ";
-        cin >> principalOption;
         system("cls");
+        leerAscii("model/assets/menuPrincipal.txt");
+        
+        // esto es una validacion por si el usuario mete algo que no sea 1,2 o 3
+        do {
+            cin >> principalOption;
+
+            // Si la opción no es válida, limpia y cambia el menú al de error
+            if (!(principalOption >= 1 && principalOption <= 3)) {
+                system("cls");
+                leerAscii("model/assets/menuPrincipalInvalido.txt");
+                
+            }
+        } while (!(principalOption >= 1 && principalOption <= 3)); // Se repite si es inválido :D
 
         switch (principalOption)
         {
@@ -47,9 +54,10 @@ void principalMenu()
             guardarSesionAlSalir();
             break;
         default:
-            cout << "\nOpción invalida. Intenta de nuevo\n"
-                 << endl;
-            break;
+            leerAscii("model/assets/menuPrincipalInvalido.txt");
+            cin >> principalOption;
+            system("cls");
+            
         }
     }
 }
