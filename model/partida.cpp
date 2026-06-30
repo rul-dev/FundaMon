@@ -51,7 +51,6 @@ bool cargarPartida(){
         cout << "Partida cargada correctamente" << endl;
         return true;
     }
-    cout << "No hay partida guardada" << endl;
     return false;
 }
 
@@ -100,12 +99,13 @@ void iniciarSesion(){
             leerAscii("model/assets/inicioSesionInvalido.txt");
         }
     }
+    system("cls");
 
     if(loadingUserOption == 1){
         // Continuar partida
         if(!cargarPartida()){
             // El .txt no existe entonces no hay partida guardada
-            cout << "Redirigiendo a creacion de nueva partida..." << endl;
+            leerAscii("model/assets/crearGuardado2.txt");
             loadingUserOption = 2; // cae al bloque de nueva partida
         }
     }
@@ -117,9 +117,11 @@ void iniciarSesion(){
         puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
-        cout << "Ingrese el nombre de usuario: ";
+        leerAscii("model/assets/crearGuardado.txt");
+        cout << string(90, ' ');
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
+        
         getline(cin, username);
 
         // Guarda el .txt con los datos iniciales
@@ -143,7 +145,9 @@ void guardarSesionAlSalir(){
         guardarPartida();
     }else{
         // Los datos guardados se quedan igual, solo despedimos
-        cout << "Adios, " << username << ". Los datos no fueron actualizados.\n";
+        leerAscii("model/assets/marcoArriba.txt");
+        cout <<string(100, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
+        leerAscii("model/assets/marcoArriba.txt");
     }
 
     existePartida = true; // la partida sigue existiendo en disco
