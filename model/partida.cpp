@@ -54,8 +54,22 @@ bool cargarPartida(){
         cout << "Partida cargada correctamente" << endl;
         return true;
     }
-    cout << "No hay partida guardada" << endl;
     return false;
+}
+
+//leera el archivo txt para las "interfaces"
+void leerAscii(string nombreArchivo){ //va a esperar el nombre del archivo que le demos
+    ifstream archivo(nombreArchivo); //abre el archivo que hayamos llamado
+    string linea;
+    if(archivo.is_open()){
+        while(getline(archivo, linea)){
+            cout << linea << endl; //imprime la linea que haya leido
+        }
+        archivo.close(); // Siempre cierra el archivo al terminar
+    } else {
+        cout << "Error: No se pudo cargar el arte ASCII de " << nombreArchivo << endl;
+    }
+      
 }
 
 // Guardar partida en partida.txt
@@ -78,26 +92,23 @@ void guardarPartida(){
 
 void iniciarSesion(){
     int loadingUserOption = 0;
-
-    cout << "\nBienvenido a Poke Devs:\n";
-    cout << "1. Continuar Partida\n";
-    cout << "2. Crear una nueva partida\n";
-    cout << "Seleccion una opcion: ";
-
+    leerAscii("model/assets/inicioSesion.txt");
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
     while (!(loadingUserOption >= 1 && loadingUserOption <= 2)){
         cin >> loadingUserOption;
         // Le deja saber al usuario que su opción es inválida
         if(!(loadingUserOption >= 1 && loadingUserOption <= 2)){
-            cout << "Opción invalida. Intenta de nuevo: ";
+            system("cls");
+            leerAscii("model/assets/inicioSesionInvalido.txt");
         }
     }
+    system("cls");
 
     if(loadingUserOption == 1){
         // Continuar partida
         if(!cargarPartida()){
             // El .txt no existe entonces no hay partida guardada
-            cout << "Redirigiendo a creacion de nueva partida..." << endl;
+            leerAscii("model/assets/crearGuardado2.txt");
             loadingUserOption = 2; // cae al bloque de nueva partida
         }
     }
@@ -109,9 +120,11 @@ void iniciarSesion(){
         puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
-        cout << "Ingrese el nombre de usuario: ";
+        leerAscii("model/assets/crearGuardado.txt");
+        cout << string(90, ' '); //añade 90 espacios vacios, durisimo no?
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
+        
         getline(cin, username);
 
         // Guarda el .txt con los datos iniciales
@@ -123,15 +136,21 @@ void iniciarSesion(){
 
 void guardarSesionAlSalir(){
     char opcion;
-    cout << "\nDeseas guardar la partida antes de salir? (s/n): ";
+    system("cls");
+    leerAscii("model/assets/menuPrincipalSalir.txt");
     cin >> opcion;
+    system("cls");
     
     if(opcion == 's' || opcion == 'S'){
+        leerAscii("model/assets/marcoArriba.txt");
+        cout <<string(85, ' ') <<"Hasta luego, " << username << "!\n\n";
+        leerAscii("model/assets/marcoArriba.txt");
         guardarPartida();
-        cout << "Hasta luego, " << username << "!\n";
     }else{
         // Los datos guardados se quedan igual, solo despedimos
-        cout << "Adios, " << username << ". Los datos no fueron actualizados.\n";
+        leerAscii("model/assets/marcoArriba.txt");
+        cout <<string(70, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
+        leerAscii("model/assets/marcoArriba.txt");
     }
 
     existePartida = true; // la partida sigue existiendo en disco
