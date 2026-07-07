@@ -43,6 +43,7 @@ void principalMenu()
         switch (principalOption)
         {
         case 1:
+            system("cls");
             iniciarBatalla();
             // 4. Entramos al flujo de turnos
             fightMenu();
@@ -52,6 +53,7 @@ void principalMenu()
             break;
         case 3:
             guardarSesionAlSalir();
+            Sleep(3000);
             break;
         default:
             leerAscii("model/assets/menuPrincipalInvalido.txt");

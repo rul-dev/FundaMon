@@ -118,7 +118,7 @@ void iniciarSesion(){
         ultimaFecha = obtenerFechaHoy();
 
         leerAscii("model/assets/crearGuardado.txt");
-        cout << string(90, ' ');
+        cout << string(90, ' '); //añade 90 espacios vacios, durisimo no?
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
         
@@ -140,13 +140,13 @@ void guardarSesionAlSalir(){
     
     if(opcion == 's' || opcion == 'S'){
         leerAscii("model/assets/marcoArriba.txt");
-        cout <<string(100, ' ') <<"Hasta luego, " << username << "!\n\n";
+        cout <<string(85, ' ') <<"Hasta luego, " << username << "!\n\n";
         leerAscii("model/assets/marcoArriba.txt");
         guardarPartida();
     }else{
         // Los datos guardados se quedan igual, solo despedimos
         leerAscii("model/assets/marcoArriba.txt");
-        cout <<string(100, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
+        cout <<string(70, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
         leerAscii("model/assets/marcoArriba.txt");
     }
 

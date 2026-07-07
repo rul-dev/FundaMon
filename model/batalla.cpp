@@ -124,11 +124,8 @@ void cambiarPokemonBatalla()
 }
 
 void iniciarBatalla() {
-    cout << "\n=============================================\n";
-    cout << "            INICIANDO LA AVENTURA!            \n";
-    cout << "=============================================\n";
-    cout << "Bienvenido. Es el turno de elegir tu equipo pokemon (solo puedes elegir 6 max)\n";
-    cout << "-------------------------------------------------------------------------\n";
+    
+    leerAscii("model/assets/iniciarBatalla.txt");
 
     puntosBatallaActual = 0;
     prepararFaseSeleccion();
@@ -142,9 +139,11 @@ void iniciarBatalla() {
         equipoEnemigo.pokemon[i].hp = (equipoEnemigo.pokemon[i].hp * 2.5) + 60;
     }
 
-    cout << "\n-> ¡El rival ha preparado su equipo de forma aleatoria!\n";
-    cout << "-> ¡Todos los pokemones han sido nivelados al Nivel 60 para el torneo!\n";
-    Sleep(1500);
+    cout << string(60, ' ')<<"-> El rival ha preparado su equipo de forma aleatoria!\n";
+    cout << string(60, ' ')<<"-> Todos los pokemones han sido nivelados al Nivel 60 para el torneo!\n"<<endl;
+    leerAscii("model/assets/marcoArriba.txt");
+    Sleep(3500); //es para que espere 3 segundos
+    system("cls");
     
     activePokemon = 0;
     activePokemonEnemy = 0;
