@@ -34,7 +34,7 @@ void MostrarPokemones()
             }
         }
     }
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
 }
 
 //Pasamos el equipo actual que tengamos y el turno en el que van 
@@ -66,7 +66,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
         cout <<string(75, ' ')<< "Elige tu pokemon segun su numero " << i + 1<<": ";
         cin >> seleccionUser; // Leemos la respuesta.
         system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
-        leerAscii("model/assets/iniciarBatalla.txt");
+        leerAscii("../model/assets/iniciarBatalla.txt");
         MostrarPokemones();
 
         // EL GUARDIA DE SEGURIDAD (Validación de rango)
@@ -77,7 +77,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
             cout <<string(75, ' ')<<"Elige tu pokemon segun su numero " << i + 1<<": ";
             cin >> seleccionUser; // Lo obligamos a escribir de nuevo hasta que ponga un número correcto.
             system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
-            leerAscii("model/assets/iniciarBatalla.txt");
+            leerAscii("../model/assets/iniciarBatalla.txt");
             MostrarPokemones();
         }
         
