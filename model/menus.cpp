@@ -48,7 +48,10 @@ void principalMenu()
             fightMenu();
             break;
         case 2:
+            system("cls");
             mostrarLeaderboard();
+            cout << "\nPresiona cualquier tecla para volver al menú principal..." << endl;
+            _getch();
             break;
         case 3:
             guardarSesionAlSalir();
