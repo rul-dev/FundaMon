@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
+#include <cstdio>
 #include <cctype>
 #include <ctime> // Librería para recolectar la fecha
 
