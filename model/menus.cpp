@@ -48,7 +48,10 @@ void principalMenu()
             fightMenu();
             break;
         case 2:
+            system("cls");
             mostrarLeaderboard();
+            cout << "\nPresiona cualquier tecla para volver al menú principal..." << endl;
+            _getch();
             break;
         case 3:
             guardarSesionAlSalir();
@@ -140,7 +143,6 @@ void fightMenu()
     {
         cout << "\n=============================================\n";
         cout << "        Has huido de la batalla              " << endl;
-        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
         cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
         cout << "=============================================\n";
