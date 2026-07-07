@@ -1,3 +1,6 @@
+#ifndef PARTIDA_CPP
+#define PARTIDA_CPP
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -243,3 +246,5 @@ void mostrarLeaderboard()
     }
     cout << "========================\n";
 }
+
+#endif
