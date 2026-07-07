@@ -1,14 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <cctype>
 #include <ctime> // Librería para recolectar la fecha
 
 using namespace std;
 
+bool savedLeaderboardThisBattle = false;
 // Variables globales de sesión (partidas)
 
 string username = "";
 int score = 0;
+ int puntosBatallaActual = 0;
 string ultimaFecha = "";
 bool existePartida = false;
 
@@ -64,7 +68,6 @@ void guardarPartida(){
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
-        system("cls");
         cout << "Partida guardada correctamente" << endl;
     }else{
         cout << "No se pudo guardar la partida" << endl;
@@ -103,6 +106,7 @@ void iniciarSesion(){
         // Nueva partida
         // Reiniciar variables
         score = 0;
+        puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
         cout << "Ingrese el nombre de usuario: ";
@@ -131,4 +135,92 @@ void guardarSesionAlSalir(){
     }
 
     existePartida = true; // la partida sigue existiendo en disco
+}
+
+
+void mostrarPuntuaje(int score)
+{
+    cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
+}
+
+void guardarPuntosEnLeaderboard(int scoreActual, string nombreJugador)
+{
+    ofstream archivoEscritura("leaderboard.txt", ios::app);
+    if (archivoEscritura.is_open())
+    {
+        
+        archivoEscritura << nombreJugador << " " << scoreActual << "\n";
+        archivoEscritura.close();
+    }
+    else
+    {
+        cout << "No se pudo guardar el puntaje en leaderboard.txt" << endl;
+    }
+}
+
+void mostrarLeaderboard()
+{    //se declara una estrcuturcon campos de nombre , puntuaje 
+    struct Records { string nombre; int puntuaje; };
+    //creo un array con 200 espacios y quemamos el puntuaje
+    Records listaTop[200];
+    int cantidad = 0;
+
+    //abrimos leaderboard y declaramos la variable linea
+    ifstream archivoLectura("leaderboard.txt");
+    string linea;
+    //se va a rrepetir hasta que se lean 200 validos y lineas que si sean disponilbes
+    while (cantidad < 200 && getline(archivoLectura, linea))
+    {
+
+        //si la linea esta vacia pasa
+        if (linea.empty()) continue;
+        
+        //encuentra el ultimo espacio d ela linea y
+        // si no lo encuentra asume que no tiene el formato y continua a la otra linea 
+        size_t pos = linea.find_last_of(' ');
+        if (pos == string::npos) continue;
+        // 0= toma lo ultimo de la linea antes del espacio como name
+        string name = linea.substr(0, pos);
+        // +1= toma lo ultimo de la linea antes del espacio como el puntuaja
+        string scoreStr = linea.substr(pos + 1);
+      
+        //limpia espacios
+        while (!name.empty() && isspace((unsigned char)name.back())) name.pop_back();
+        while (!name.empty() && isspace((unsigned char)name.front())) name.erase(0,1);
+       
+
+        //comprueba que se pueda convertir el puntuaje a int y si no descarta la linea y coninua 
+        //Si funciona sguarda el puntuaje en el arary listatop
+        try {
+            int s = stoi(scoreStr);
+            if (s == 0) continue; // skip zeros
+            listaTop[cantidad].nombre = name;
+            listaTop[cantidad].puntuaje = s;
+            cantidad++;
+        } catch(...) { continue; }
+    }
+    archivoLectura.close();
+
+    // este es un ordenamiento burubuja y detecta y compara 
+    //revisa cada pasada y compara del mayor a menor y sigue haciendo eso hasta que se ordene 
+    for (int i = 0; i < cantidad - 1; ++i)
+    {
+        for (int j = 0; j < cantidad - 1 - i; ++j)
+        {
+            if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
+            {
+                Records tmp = listaTop[j]; 
+                listaTop[j] = listaTop[j+1];
+                 listaTop[j+1] = tmp;
+            }
+        }
+    }
+
+    cout << "\n=== TOP PUNTUACIONES ===\n";
+    if (cantidad == 0) cout << "Aun no hay puntajes registrados.\n";
+    else {
+        int limite = cantidad < 10 ? cantidad : 10;
+        for (int i = 0; i < limite; ++i) cout << i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts\n";
+    }
+    cout << "========================\n";
 }
