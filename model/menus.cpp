@@ -91,6 +91,7 @@ void fightMenu()
                 break; // El jugador decidió regresar al menú de combate anterior
             }
             ejecutarTurno(indiceAtaque);
+            system("cls");
         }
         break;
 
@@ -121,8 +122,10 @@ void fightMenu()
 
         default:
             system("cls");
-            cout << "\nElige alguna de las 3 opciones validas! " << endl;
-            Sleep(2000);
+            infoPokemon();
+            leerAscii("model/assets/menuPeleaInvalido.txt");
+            Sleep(1000);
+            system("cls");
             break;
         }
     }
@@ -139,7 +142,11 @@ void fightMenu()
         cout << "        Has huido de la batalla              " << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
         cout << "=============================================\n";
+        _getch();
+        
+
     }
     else if (!aliadoVivo)
     {
@@ -147,7 +154,9 @@ void fightMenu()
         cout << "      GAME OVER - Has sido derrotado         " << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
         cout << "=============================================\n";
+        _getch();
     }
     else if (!enemigoVivo)
     {
@@ -155,7 +164,9 @@ void fightMenu()
         cout << "     VICTORIA! Has ganado la batalla!       \n" << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\n\nPresione cualquier tecla para continuar!\n" << endl;
         cout << "=============================================\n";
+        _getch();
     }
 
     guardarPartida();

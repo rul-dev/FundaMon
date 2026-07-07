@@ -249,8 +249,7 @@ void verificarYProcesarDebilitados() {
     // 1. Validar Pokémon Aliado Activo
     if (equipoAliado.pokemon[activePokemon].hp <= 0) {
         equipoAliado.pokemon[activePokemon].hp = 0; // Evitamos HPs negativos visuales
-        cout << "\nTu " << equipoAliado.pokemon[activePokemon].nombre << " se ha debilitado!\n";
-        Sleep(1500);
+        cout <<string(30, ' ')<< "Tu " << equipoAliado.pokemon[activePokemon].nombre << " se ha debilitado!\n";
 
         // Verificar si quedan Pokémon vivos en el equipo
         bool quedanVivos = false;
@@ -262,8 +261,9 @@ void verificarYProcesarDebilitados() {
         }
 
         if (quedanVivos) {
-            cout << "Debes elegir a otro miembro de tu equipo para continuar.\n";
-            Sleep(1000);
+            cout <<string(30, ' ')<< "Debes elegir a otro miembro de tu equipo para continuar.\n\n";
+            leerAscii("model/assets/marcoArriba.txt");
+            Sleep(4500);
             system("cls");
             
             // Forzamos al jugador a cambiar. 
@@ -280,15 +280,13 @@ void verificarYProcesarDebilitados() {
     // 2. Validar Pokémon Enemigo Activo
     if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
         equipoEnemigo.pokemon[activePokemonEnemy].hp = 0;
-        cout << "\nEl " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " rival se ha debilitado!\n";
-        Sleep(1500);
+        cout <<string(30, ' ')<< "El " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " rival se ha debilitado!\n";
 
         // Al ser la IA, avanzamos al siguiente de forma secuencial (del 0 al 5)
         if (activePokemonEnemy < 5) {
             activePokemonEnemy++;
-            cout << "El rival envia a " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " a la arena!\n";
-            Sleep(2000);
-        } else {
+            cout <<string(30, ' ')<< "El rival envia a " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " a la arena!\n\n";
+            } else {
             enemigoVivo = false; // Se quedó sin Pokémon, victoria del jugador
         }
     }
@@ -320,9 +318,10 @@ void ejecutarTurno(int indiceAtaque) {
         if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
             verificarYProcesarDebilitados();
             leerAscii("model/assets/marcoArriba.txt");
-            Sleep(2500);
+            Sleep(4000);
             return; 
         }
+        
 
         // El enemigo ataca sólo si sobrevivió
         cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " usa " << movEnemigo.nombre << "!\n";
@@ -333,6 +332,8 @@ void ejecutarTurno(int indiceAtaque) {
         if (equipoAliado.pokemon[activePokemon].hp <= 0) {
             verificarYProcesarDebilitados();
         }
+        leerAscii("model/assets/marcoArriba.txt");
+        Sleep(5000);
     } 
     else {
         // === ENEMIGO ES MÁS RÁPIDO ===
@@ -346,8 +347,6 @@ void ejecutarTurno(int indiceAtaque) {
         // CORRECCIÓN: Si el jugador muere aquí, se cancela su ataque
         if (equipoAliado.pokemon[activePokemon].hp <= 0) {
             verificarYProcesarDebilitados();
-            leerAscii("model/assets/marcoArriba.txt");
-            Sleep(2500);
             return;
         }
 
@@ -361,9 +360,11 @@ void ejecutarTurno(int indiceAtaque) {
         if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
             verificarYProcesarDebilitados();
         }
-    }
+
     leerAscii("model/assets/marcoArriba.txt");
-    Sleep(2500);
+    Sleep(4000);
+    }
+    
 }
 
 void procesarContraataquePorCambio() {
@@ -383,7 +384,7 @@ void procesarContraataquePorCambio() {
     
     cout <<string(30,' ')<< "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
     leerAscii("model/assets/marcoArriba.txt");
-    Sleep(2500);
+    Sleep(3000);
 
     // Verificamos de inmediato si el Pokémon entrante resistió o se debilitó por el golpe
     verificarYProcesarDebilitados();

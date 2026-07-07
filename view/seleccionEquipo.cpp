@@ -38,16 +38,16 @@ void MostrarPokemones()
 //Pasamos el equipo actual que tengamos y el turno en el que van 
 void MostrarProgresoEquipo(Equipo equipoTemporal , int turnoActual)
 {
-  cout <<string(70, ' ')<<"+-------- Tu equipo actual --------+" << endl;
+  cout <<string(75, ' ')<<"+-------- Tu equipo actual --------+" << endl;
 
 //nuestro limite sera el turno actual que se paso
   for (int x = 0; x<= turnoActual; x++)
   {
  // se imprime el numero de lista y el nombre del pokemon n
-   cout <<string(75, ' ')<< x + 1 << ".     " << equipoTemporal.pokemon[x].nombre << endl;
+   cout <<string(80, ' ')<< x + 1 << ".     " << equipoTemporal.pokemon[x].nombre << endl;
   }
   
-cout <<string(70, ' ')<< "+----------------------------------+\n" << endl;
+cout <<string(75, ' ')<< "+----------------------------------+\n" << endl;
 
 }
 
@@ -61,7 +61,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
     for (int i = 0; i < 6; i++)
     {
         int seleccionUser; // Variable para atrapar el número que el jugador teclee en la consola.
-        cout <<string(70, ' ')<< "Elige tu pokemon segun su numero " << i + 1<<": ";
+        cout <<string(75, ' ')<< "Elige tu pokemon segun su numero " << i + 1<<": ";
         cin >> seleccionUser; // Leemos la respuesta.
         system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
         leerAscii("model/assets/iniciarBatalla.txt");
@@ -71,9 +71,12 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
         // Si el jugador escribe un número inválido (mayor a 30 o menor/igual a 0), lo atrapamos en este bucle.
         while (seleccionUser > 30 || seleccionUser <= 0)
         {
-            cout << "Te has equivocado ingresa de nuevo el numero de pokemon a elegir" << endl;
-            cout << "Elige tu pokemon segun su numero " << i + 1 << endl;
+            cout <<string(65, ' ')<<"Te has equivocado ingresa de nuevo el numero de pokemon a elegir" << endl;
+            cout <<string(75, ' ')<<"Elige tu pokemon segun su numero " << i + 1<<": ";
             cin >> seleccionUser; // Lo obligamos a escribir de nuevo hasta que ponga un número correcto.
+            system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
+            leerAscii("model/assets/iniciarBatalla.txt");
+            MostrarPokemones();
         }
         
         // Traducimos el número que eligió 
@@ -90,7 +93,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
             if (pokedexDisponible[indiceReal].nombre == equipoDestino.pokemon[j].nombre)
             {
 
-                cout << string(80, ' ')<<"Pokemon repetido\n" << endl;
+                cout << string(85, ' ')<<"Pokemon repetido\n" << endl;
                 pokeRep = true; 
             }
         }
@@ -100,7 +103,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
         {
             // Lo guardamos oficialmente en la posición 'i' y mandamos mensaje de éxito.
             equipoDestino.pokemon[i] = pokedexDisponible[indiceReal];
-            cout << string(70, ' ')<<"Has agregado a " << equipoDestino.pokemon[i].nombre << " a tu equipo!\n" << endl;
+            cout << string(75, ' ')<<"Has agregado a " << equipoDestino.pokemon[i].nombre << " a tu equipo!\n" << endl;
         }
         else
         {
