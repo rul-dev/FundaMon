@@ -33,7 +33,7 @@ void principalMenu()
             fightMenu();
             break;
         case 2:
-            cout << "\n[Puntajes - por implementar]\n";
+            mostrarLeaderboard();
             break;
         case 3:
             guardarSesionAlSalir();
@@ -149,4 +149,10 @@ void fightMenu()
     }
 
     guardarPartida();
+
+    if (puntosBatallaActual > 0 && !savedLeaderboardThisBattle)
+    {
+        guardarPuntosEnLeaderboard(puntosBatallaActual, username);
+        savedLeaderboardThisBattle = true;
+    }
 }

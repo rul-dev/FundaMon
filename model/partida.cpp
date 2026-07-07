@@ -1,15 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <cctype>
 #include <ctime> // Librería para recolectar la fecha
 
 using namespace std;
 
+bool savedLeaderboardThisBattle = false;
 // Variables globales de sesión (partidas)
 
 string username = "";
 int score = 0;
-int puntosBatallaActual = 0;
+ int puntosBatallaActual = 0;
 string ultimaFecha = "";
 bool existePartida = false;
 
@@ -137,65 +140,71 @@ void guardarSesionAlSalir(){
 
 void mostrarPuntuaje(int score)
 {
-   
     cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
-    
 }
 
-void puntosPartidas(int score, string username)
+void guardarPuntosEnLeaderboard(int scoreActual, string nombreJugador)
 {
-    ofstream archivoLeaderboard;
-    archivoLeaderboard.open("leaderboard.txt", ios::app);
-    
-    
-    if(archivoLeaderboard.is_open())
+    ofstream archivoEscritura("leaderboard.txt", ios::app);
+    if (archivoEscritura.is_open())
     {
-          archivoLeaderboard << username << " " << score << endl;
-          archivoLeaderboard.close();
-    }
-
-    struct Records 
-    {
-        string nombre;
-        int puntuaje;
-    };
-
-    ifstream archivoLectura;
-    archivoLeaderboard.open("leaderboard.txt");
-    Records listaTop[20];
-
-   
-    int cantidadJugadores = 0;
-    
-    while ( archivoLectura>> listaTop[cantidadJugadores].nombre>>listaTop[cantidadJugadores].puntuaje)
-    {
-        cantidadJugadores++;
-    }
-     
-    for (int i = 0; i < cantidadJugadores-1; i++)
-    {
-       for ( int j = 0; j < cantidadJugadores -1; j++)
-    {
-        if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
-        {
-             Records temp;
-      temp = listaTop[j];
-      listaTop[j]= listaTop[j+1];
-        listaTop[j+1] =temp;
-    
-        }
         
+        archivoEscritura << nombreJugador << " " << scoreActual << "\n";
+        archivoEscritura.close();
     }
+    else
+    {
+        cout << "No se pudo guardar el puntaje en leaderboard.txt" << endl;
     }
-    
+}
 
-    
-  
-    
-    
-         
-    
+void mostrarLeaderboard()
+{
+    struct Records { string nombre; int puntuaje; };
+    Records listaTop[200];
+    int cantidad = 0;
 
+    ifstream archivoLectura("leaderboard.txt");
+    string linea;
+    while (cantidad < 200 && getline(archivoLectura, linea))
+    {
+        if (linea.empty()) continue;
+        
+        size_t pos = linea.find_last_of(' ');
+        if (pos == string::npos) continue;
+        string name = linea.substr(0, pos);
+        string scoreStr = linea.substr(pos + 1);
+      
+        while (!name.empty() && isspace((unsigned char)name.back())) name.pop_back();
+        while (!name.empty() && isspace((unsigned char)name.front())) name.erase(0,1);
+       
+        try {
+            int s = stoi(scoreStr);
+            if (s == 0) continue; // skip zeros
+            listaTop[cantidad].nombre = name;
+            listaTop[cantidad].puntuaje = s;
+            cantidad++;
+        } catch(...) { continue; }
+    }
+    archivoLectura.close();
 
+    // simple bubble sort descending
+    for (int i = 0; i < cantidad - 1; ++i)
+    {
+        for (int j = 0; j < cantidad - 1 - i; ++j)
+        {
+            if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
+            {
+                Records tmp = listaTop[j]; listaTop[j] = listaTop[j+1]; listaTop[j+1] = tmp;
+            }
+        }
+    }
 
+    cout << "\n=== TOP PUNTUACIONES ===\n";
+    if (cantidad == 0) cout << "Aun no hay puntajes registrados.\n";
+    else {
+        int limite = cantidad < 10 ? cantidad : 10;
+        for (int i = 0; i < limite; ++i) cout << i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts\n";
+    }
+    cout << "========================\n";
 }
