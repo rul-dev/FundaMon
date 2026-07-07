@@ -1,7 +1,6 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h> // es para el _getch
-#include "../model/partida.cpp"
 #include "../model/batalla.cpp"
 
 using namespace std;
@@ -72,18 +71,10 @@ void fightMenu()
     // El ciclo se ejecuta mientras ambos lados sigan en condiciones de pelear y no se huya
     while (fightOption != 3 && aliadoVivo == true && enemigoVivo == true)
     {
-        cout << "\n---------------------------------------------\n";
-        cout << " TU POKEMON: " << equipoAliado.pokemon[activePokemon].nombre
-             << " Nv.60 (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n";
-        cout << " RIVAL:      " << equipoEnemigo.pokemon[activePokemonEnemy].nombre
-             << " Nv.60 (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n";
-        cout << "---------------------------------------------\n";
+        infoPokemon();
 
-        cout << "1. Luchar\n";
-        cout << "2. Cambiar\n";
-        cout << "3. Huir\n";
-        cout << "---------------------------------------------\n";
-        cout << "Que quieres hacer?: ";
+        //menú de pelea en si
+        leerAscii("model/assets/menuPelea.txt");
         cin >> fightOption;
 
         switch (fightOption)
@@ -91,6 +82,7 @@ void fightMenu()
         case 1:
         {
             system("cls");
+            infoPokemon();
             int indiceAtaque = seleccionarAtaque();
 
             if (indiceAtaque == -1)
@@ -124,13 +116,13 @@ void fightMenu()
         case 3:
             system("cls");
             cout << "\nHas huido de la batalla de forma segura!" << endl;
-            Sleep(500);
+            Sleep(2000);
             break;
 
         default:
             system("cls");
             cout << "\nElige alguna de las 3 opciones validas! " << endl;
-            Sleep(500);
+            Sleep(2000);
             break;
         }
     }
