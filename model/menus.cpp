@@ -1,6 +1,6 @@
 #include <iostream>
 #include <windows.h>
-#include "../model/partida.cpp"
+#include <conio.h> // es para el _getch
 #include "../model/batalla.cpp"
 
 using namespace std;
@@ -8,6 +8,13 @@ using namespace std;
 // NOTE: Aqui deberian de ir TODOS los menús, es mejor para evitar redundancias de menús, si agregan algun menu, avisenme y lo pongo aquí
 
 void fightMenu();
+
+void pantallaBienvenida(){
+    system("cls");
+    leerAscii("model/assets/pokedevs.txt"); //chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
+    _getch();
+    system("cls");
+}
 
 // El menu principal despues de crear o continuar una partida
 void principalMenu()
@@ -17,17 +24,25 @@ void principalMenu()
 
     while (principalOption != 3)
     {
-        cout << "\nMenu Principal:\n";
-        cout << "1. Jugar\n";
-        cout << "2. Puntajes\n";
-        cout << "3. Salir\n";
-        cout << "Selecciona una opcion: ";
-        cin >> principalOption;
         system("cls");
+        leerAscii("model/assets/menuPrincipal.txt");
+        
+        // esto es una validacion por si el usuario mete algo que no sea 1,2 o 3
+        do {
+            cin >> principalOption;
+
+            // Si la opción no es válida, limpia y cambia el menú al de error
+            if (!(principalOption >= 1 && principalOption <= 3)) {
+                system("cls");
+                leerAscii("model/assets/menuPrincipalInvalido.txt");
+                
+            }
+        } while (!(principalOption >= 1 && principalOption <= 3)); // Se repite si es inválido :D
 
         switch (principalOption)
         {
         case 1:
+            system("cls");
             iniciarBatalla();
             // 4. Entramos al flujo de turnos
             fightMenu();
@@ -37,11 +52,13 @@ void principalMenu()
             break;
         case 3:
             guardarSesionAlSalir();
+            Sleep(3000);
             break;
         default:
-            cout << "\nOpción invalida. Intenta de nuevo\n"
-                 << endl;
-            break;
+            leerAscii("model/assets/menuPrincipalInvalido.txt");
+            cin >> principalOption;
+            system("cls");
+            
         }
     }
 }
@@ -54,18 +71,10 @@ void fightMenu()
     // El ciclo se ejecuta mientras ambos lados sigan en condiciones de pelear y no se huya
     while (fightOption != 3 && aliadoVivo == true && enemigoVivo == true)
     {
-        cout << "\n---------------------------------------------\n";
-        cout << " TU POKEMON: " << equipoAliado.pokemon[activePokemon].nombre
-             << " Nv.60 (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n";
-        cout << " RIVAL:      " << equipoEnemigo.pokemon[activePokemonEnemy].nombre
-             << " Nv.60 (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n";
-        cout << "---------------------------------------------\n";
+        infoPokemon();
 
-        cout << "1. Luchar\n";
-        cout << "2. Cambiar\n";
-        cout << "3. Huir\n";
-        cout << "---------------------------------------------\n";
-        cout << "Que quieres hacer?: ";
+        //menú de pelea en si
+        leerAscii("model/assets/menuPelea.txt");
         cin >> fightOption;
 
         switch (fightOption)
@@ -73,6 +82,7 @@ void fightMenu()
         case 1:
         {
             system("cls");
+            infoPokemon();
             int indiceAtaque = seleccionarAtaque();
 
             if (indiceAtaque == -1)
@@ -81,6 +91,7 @@ void fightMenu()
                 break; // El jugador decidió regresar al menú de combate anterior
             }
             ejecutarTurno(indiceAtaque);
+            system("cls");
         }
         break;
 
@@ -106,13 +117,15 @@ void fightMenu()
         case 3:
             system("cls");
             cout << "\nHas huido de la batalla de forma segura!" << endl;
-            Sleep(500);
+            Sleep(2000);
             break;
 
         default:
             system("cls");
-            cout << "\nElige alguna de las 3 opciones validas! " << endl;
-            Sleep(500);
+            infoPokemon();
+            leerAscii("model/assets/menuPeleaInvalido.txt");
+            Sleep(1000);
+            system("cls");
             break;
         }
     }
@@ -129,7 +142,11 @@ void fightMenu()
         cout << "        Has huido de la batalla              " << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
         cout << "=============================================\n";
+        _getch();
+        
+
     }
     else if (!aliadoVivo)
     {
@@ -137,7 +154,9 @@ void fightMenu()
         cout << "      GAME OVER - Has sido derrotado         " << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
         cout << "=============================================\n";
+        _getch();
     }
     else if (!enemigoVivo)
     {
@@ -145,7 +164,9 @@ void fightMenu()
         cout << "     VICTORIA! Has ganado la batalla!       \n" << endl;
         cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
         cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
+        cout << "\n\nPresione cualquier tecla para continuar!\n" << endl;
         cout << "=============================================\n";
+        _getch();
     }
 
     guardarPartida();
