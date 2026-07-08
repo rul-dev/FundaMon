@@ -100,6 +100,9 @@ void iniciarSesion(){
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
     while (!(opcionCarga >= 1 && opcionCarga <= 2)){
         cin >> opcionCarga;
+        
+
+        if(cin.fail()) cin.clear(), cin.ignore(1000, '\n'), opcionCarga = 0;
         // Le deja saber al usuario que su opción es inválida
         if(!(opcionCarga >= 1 && opcionCarga <= 2)){
             system("cls");

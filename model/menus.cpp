@@ -36,6 +36,8 @@ void principalMenu()
         {
             cin >> principalOption;
 
+            if(cin.fail()) cin.clear(), cin.ignore(1000, '\n'), principalOption = 0;
+
             // Si la opción no es válida, limpia y cambia el menú al de error
             if (!(principalOption >= 1 && principalOption <= 3))
             {
@@ -87,6 +89,8 @@ void menuCombate()
         // menú de pelea en si
         leerAscii("../model/assets/menuPelea.txt");
         cin >> fightOption;
+
+        if(cin.fail()) cin.clear(), cin.ignore(1000, '\n'), fightOption = 0;
 
         switch (fightOption)
         {
