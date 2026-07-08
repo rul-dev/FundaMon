@@ -77,8 +77,7 @@ void principalMenu()
 // menú de batalla despues de darle a jugar
 void fightMenu()
 {
-    // 1. INICIAR MÚSICA DE BATALLA: Asíncrona (no detiene el juego) y en Bucle (Loop)
-    // Nota: Asegúrate de que la ruta sea correcta, ej: "model/assets/Battle_Theme.wav"
+    // Inicia música de batalla en bucle, de forma asíncrona para que no bloquee la ejecución del programa:
     PlaySound(TEXT("../model/assets/Battle_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     int fightOption = 0;
 
@@ -205,7 +204,6 @@ void fightMenu()
         savedLeaderboardThisBattle = true;
     }
 
-    // 2. DETENER MÚSICA DE BATALLA: Al salir de la función, apagamos el sonido
-    // pasándole NULL para regresar en silencio al menú principal.
+    // Detener la música de batalla al salir del menú de pelea
     PlaySound(NULL, 0, 0);
 }
