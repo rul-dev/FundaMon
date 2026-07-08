@@ -10,12 +10,12 @@
 
 using namespace std;
 
-bool savedLeaderboardThisBattle = false;
+bool tablaGuardadaEstaBatalla = false;
 // Variables globales de sesión (partidas)
 
-string username = "";
-int score = 0;
- int puntosBatallaActual = 0;
+string nombreUsuario = "";
+int puntaje = 0;
+int puntosBatallaActual = 0;
 string ultimaFecha = "";
 bool existePartida = false;
 
@@ -43,11 +43,11 @@ bool cargarPartida(){
     // Lee el archivo
     ifstream archivo("partida.txt");
     if(archivo.is_open()){
-        // Lee la primer línea completa del archivo y la guarda en la variable username, se usa getline por si el nombre del usuario tiene espacios
-        getline(archivo, username);
-        // Lee el dato del archivo y lo guarda en score, deja el salto de línea atascado en el proceso de lectura
-        archivo >> score;
-        // Limpia el salto de línea que dejó la lectura de score, sino se leería una línea vacía y se guardaría en la siguiente variable
+        // Lee la primer línea completa del archivo y la guarda en la variable nombreUsuario, se usa getline por si el nombre del usuario tiene espacios
+        getline(archivo, nombreUsuario);
+        // Lee el dato del archivo y lo guarda en puntaje, deja el salto de línea atascado en el proceso de lectura
+        archivo >> puntaje;
+        // Limpia el salto de línea que dejó la lectura de puntaje, sino se leería una línea vacía y se guardaría en la siguiente variable
         archivo.ignore();
         // Lee la fecha y la guarda en la variable
         getline(archivo, ultimaFecha);
@@ -80,8 +80,8 @@ void leerAscii(string nombreArchivo){ //va a esperar el nombre del archivo que l
 void guardarPartida(){
     ofstream archivo("partida.txt");
     if(archivo.is_open()){
-        archivo << username << "\n";
-        archivo << score << "\n";
+        archivo << nombreUsuario << "\n";
+        archivo << puntaje << "\n";
         archivo << obtenerFechaHoy() << "\n";
         archivo.close();
         existePartida = true;
@@ -94,32 +94,32 @@ void guardarPartida(){
 // Iniciar sesión (cargar o crear una partida)
 
 void iniciarSesion(){
-    int loadingUserOption = 0;
+    int opcionCarga = 0;
     leerAscii("../model/assets/inicioSesion.txt");
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
-    while (!(loadingUserOption >= 1 && loadingUserOption <= 2)){
-        cin >> loadingUserOption;
+    while (!(opcionCarga >= 1 && opcionCarga <= 2)){
+        cin >> opcionCarga;
         // Le deja saber al usuario que su opción es inválida
-        if(!(loadingUserOption >= 1 && loadingUserOption <= 2)){
+        if(!(opcionCarga >= 1 && opcionCarga <= 2)){
             system("cls");
             leerAscii("../model/assets/inicioSesionInvalido.txt");
         }
     }
     system("cls");
 
-    if(loadingUserOption == 1){
+    if(opcionCarga == 1){
         // Continuar partida
         if(!cargarPartida()){
             // El .txt no existe entonces no hay partida guardada
             leerAscii("../model/assets/crearGuardado2.txt");
-            loadingUserOption = 2; // cae al bloque de nueva partida
+            opcionCarga = 2; // cae al bloque de nueva partida
         }
     }
 
-    if(loadingUserOption == 2){
+    if(opcionCarga == 2){
         // Nueva partida
         // Reiniciar variables
-        score = 0;
+        puntaje = 0;
         puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
@@ -128,7 +128,7 @@ void iniciarSesion(){
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
         
-        getline(cin, username);
+        getline(cin, nombreUsuario);
 
         // Guarda el .txt con los datos iniciales
         guardarPartida();
@@ -146,13 +146,13 @@ void guardarSesionAlSalir(){
     
     if(opcion == 's' || opcion == 'S'){
         leerAscii("../model/assets/marcoArriba.txt");
-        cout <<string(85, ' ') <<"Hasta luego, " << username << "!\n\n";
+        cout <<string(85, ' ') <<"Hasta luego, " << nombreUsuario << "!\n\n";
         leerAscii("../model/assets/marcoArriba.txt");
         guardarPartida();
     }else{
         // Los datos guardados se quedan igual, solo despedimos
         leerAscii("../model/assets/marcoArriba.txt");
-        cout <<string(70, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
+        cout <<string(70, ' ') << "Adios, " << nombreUsuario << ". Los datos no fueron actualizados.\n\n";
         leerAscii("../model/assets/marcoArriba.txt");
     }
 
@@ -160,18 +160,18 @@ void guardarSesionAlSalir(){
 }
 
 
-void mostrarPuntuaje(int score)
+void mostrarPuntaje(int puntaje)
 {
-    cout << "Tu puntuaje es de: "<<score <<" pts"<< endl;
+    cout << "Tu puntuaje es de: "<<puntaje <<" pts"<< endl;
 }
 
-void guardarPuntosEnLeaderboard(int scoreActual, string nombreJugador)
+void guardarPuntosEnClasificacion(int puntajeActual, string nombreJugador)
 {
     ofstream archivoEscritura("leaderboard.txt", ios::app);
     if (archivoEscritura.is_open())
     {
         
-        archivoEscritura << nombreJugador << " " << scoreActual << "\n";
+        archivoEscritura << nombreJugador << " " << puntajeActual << "\n";
         archivoEscritura.close();
     }
     else
@@ -180,11 +180,11 @@ void guardarPuntosEnLeaderboard(int scoreActual, string nombreJugador)
     }
 }
 
-void mostrarLeaderboard()
+void mostrarTablaClasificacion()
 {    //se declara una estrcuturcon campos de nombre , puntuaje 
-    struct Records { string nombre; int puntuaje; };
+    struct Registro { string nombre; int puntuaje; };
     //creo un array con 200 espacios y quemamos el puntuaje
-    Records listaTop[200];
+    Registro listaTop[200];
     int cantidad = 0;
 
     //abrimos leaderboard y declaramos la variable linea
@@ -204,7 +204,7 @@ void mostrarLeaderboard()
         // 0= toma lo ultimo de la linea antes del espacio como name
         string name = linea.substr(0, pos);
         // +1= toma lo ultimo de la linea antes del espacio como el puntuaja
-        string scoreStr = linea.substr(pos + 1);
+        string puntajeStr = linea.substr(pos + 1);
       
         //limpia espacios
         while (!name.empty() && isspace((unsigned char)name.back())) name.pop_back();
@@ -214,7 +214,7 @@ void mostrarLeaderboard()
         //comprueba que se pueda convertir el puntuaje a int y si no descarta la linea y coninua 
         //Si funciona sguarda el puntuaje en el arary listatop
         try {
-            int s = stoi(scoreStr);
+            int s = stoi(puntajeStr);
             if (s == 0) continue; // skip zeros
             listaTop[cantidad].nombre = name;
             listaTop[cantidad].puntuaje = s;
@@ -231,7 +231,7 @@ void mostrarLeaderboard()
         {
             if (listaTop[j+1].puntuaje > listaTop[j].puntuaje)
             {
-                Records tmp = listaTop[j]; 
+                Registro tmp = listaTop[j]; 
                 listaTop[j] = listaTop[j+1];
                  listaTop[j+1] = tmp;
             }

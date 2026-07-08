@@ -12,7 +12,7 @@ Equipo equipoEnemigo;
 void prepararFaseSeleccion()
 {
     // Aquí invocamos la lógica pura del reclutamiento pasándole nuestro struct global
-    GuardarEquipoPokemon(equipoAliado);
+    guardarEquipoPokemon(equipoAliado);
 }
 
 void generarEquipoEnemigo()
@@ -31,8 +31,8 @@ void generarEquipoEnemigo()
 }
 
 // Índices para saber quién está peleando en la arena (empiezan con el primero [0])
-int activePokemon = 0;
-int activePokemonEnemy = 0;
+int pokemonActivo = 0;
+int pokemonEnemigoActivo = 0;
 
 // Banderas de control de juego
 bool aliadoVivo = true;
@@ -41,26 +41,26 @@ bool enemigoVivo = true;
 void infoPokemon(){
     //Datos del enemigo y nosotros
     leerAscii("../model/assets/marcoArriba.txt");
-    cout <<string(110, ' ') <<"* RIVAL: " << equipoEnemigo.pokemon[activePokemonEnemy].nombre
-         << " - Nv.60 (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n\n";
+    cout <<string(110, ' ') <<"* RIVAL: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre
+         << " - Nv.60 (HP: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].hp << ")\n\n";
     leerAscii("../model/assets/marco2.txt");
     leerAscii("../model/assets/marco2.txt");
-    cout <<"\n"<<string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[activePokemon].nombre
-         << " - Nv.60 (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n\n";
+    cout <<"\n"<<string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[pokemonActivo].nombre
+         << " - Nv.60 (HP: " << equipoAliado.pokemon[pokemonActivo].hp << ")\n\n";
 }
 
 // Función para mostrar los 4 ataques y validar la opción
 void menuMovimientos(){
     leerAscii("../model/assets/marco3.txt");
-    cout << string(30,' ')<<"  Movimientos de " << equipoAliado.pokemon[activePokemon].nombre << "\n";
+    cout << string(30,' ')<<"  Movimientos de " << equipoAliado.pokemon[pokemonActivo].nombre << "\n";
     leerAscii("../model/assets/marco2.txt");
     cout<<"\n";
 
     for (int i = 0; i < 4; i++)
     {
-        cout <<string(30,' ')<< i + 1 << ". " << equipoAliado.pokemon[activePokemon].movimientos[i].nombre
-             << " (Tipo: " << equipoAliado.pokemon[activePokemon].movimientos[i].tipo
-             << " | Danio: " << equipoAliado.pokemon[activePokemon].movimientos[i].danio << ")\n";
+        cout <<string(30,' ')<< i + 1 << ". " << equipoAliado.pokemon[pokemonActivo].movimientos[i].nombre
+             << " (Tipo: " << equipoAliado.pokemon[pokemonActivo].movimientos[i].tipo
+             << " | Danio: " << equipoAliado.pokemon[pokemonActivo].movimientos[i].danio << ")\n";
     }
 
     cout <<string(30,' ')<< "0. Regresar\n\n";
@@ -102,12 +102,12 @@ void verPokemones(){
 
     for (int f = 0; f < 6; f++)
     {
-        if (equipoAliado.pokemon[f].hp > 0 && f != activePokemon)
+        if (equipoAliado.pokemon[f].hp > 0 && f != pokemonActivo)
         {
             cout <<string(35, ' ')<< f + 1 << ". " << equipoAliado.pokemon[f].nombre
                  << " - HP: " << equipoAliado.pokemon[f].hp << "\n";
         }
-        else if (f == activePokemon)
+        else if (f == pokemonActivo)
         {
             cout <<string(35, ' ')<< f + 1 << ". " << equipoAliado.pokemon[f].nombre << " (EN COMBATE)\n";
         }
@@ -141,7 +141,7 @@ void cambiarPokemonBatalla()
 
     int index = opcionElegida - 1;
 
-    while (index < 0 || index > 5 || equipoAliado.pokemon[index].hp <= 0 || index == activePokemon)
+    while (index < 0 || index > 5 || equipoAliado.pokemon[index].hp <= 0 || index == pokemonActivo)
     {
         system("cls");
         infoPokemon();
@@ -157,13 +157,13 @@ void cambiarPokemonBatalla()
         
     }
 
-    activePokemon = index;
+    pokemonActivo = index;
 
     system("cls");
     infoPokemon();
     verPokemones();
     leerAscii("../model/assets/marco2.txt");
-    cout <<string(30, ' ')<<  "-> Regresa! Adelante, " << equipoAliado.pokemon[activePokemon].nombre << "!\n";
+    cout <<string(30, ' ')<<  "-> Regresa! Adelante, " << equipoAliado.pokemon[pokemonActivo].nombre << "!\n";
     leerAscii("../model/assets/marcoArriba.txt");
     Sleep(1500);
 }
@@ -190,8 +190,8 @@ void iniciarBatalla() {
     Sleep(3500); //es para que espere 3 segundos
     system("cls");
     
-    activePokemon = 0;
-    activePokemonEnemy = 0;
+    pokemonActivo = 0;
+    pokemonEnemigoActivo = 0;
     aliadoVivo = true;
     enemigoVivo = true;
 }
@@ -208,8 +208,8 @@ int obtenerIndiceTipo(string tipo) {
 // Función 1: Verificar quién ataca primero basado en la velocidad
 // Retorna TRUE si el jugador ataca primero, FALSE si el enemigo ataca primero
 bool aliadoAtacaPrimero() {
-    int velJugador = equipoAliado.pokemon[activePokemon].velocidad;
-    int velEnemigo = equipoEnemigo.pokemon[activePokemonEnemy].velocidad;
+    int velJugador = equipoAliado.pokemon[pokemonActivo].velocidad;
+    int velEnemigo = equipoEnemigo.pokemon[pokemonEnemigoActivo].velocidad;
 
     if (velJugador > velEnemigo) {
         return true;
@@ -269,9 +269,9 @@ int calcularDano(Pokemon atacante, Pokemon defensor, Movimiento mov) {
 // =============================================================================
 void verificarYProcesarDebilitados() {
     // 1. Validar Pokémon Aliado Activo
-    if (equipoAliado.pokemon[activePokemon].hp <= 0) {
-        equipoAliado.pokemon[activePokemon].hp = 0; // Evitamos HPs negativos visuales
-        cout <<string(30, ' ')<< "Tu " << equipoAliado.pokemon[activePokemon].nombre << " se ha debilitado!\n";
+    if (equipoAliado.pokemon[pokemonActivo].hp <= 0) {
+        equipoAliado.pokemon[pokemonActivo].hp = 0; // Evitamos HPs negativos visuales
+        cout <<string(30, ' ')<< "Tu " << equipoAliado.pokemon[pokemonActivo].nombre << " se ha debilitado!\n";
 
         // Verificar si quedan Pokémon vivos en el equipo
         bool quedanVivos = false;
@@ -290,8 +290,8 @@ void verificarYProcesarDebilitados() {
             
             // Forzamos al jugador a cambiar. 
             // Guardamos el índice actual; si no cambia con éxito, el bucle insistirá.
-            int indexAnterior = activePokemon;
-            while (activePokemon == indexAnterior) {
+            int indexAnterior = pokemonActivo;
+            while (pokemonActivo == indexAnterior) {
                 infoPokemon();
                 cambiarPokemonBatalla();
             }
@@ -301,14 +301,14 @@ void verificarYProcesarDebilitados() {
     }
 
     // 2. Validar Pokémon Enemigo Activo
-    if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
-        equipoEnemigo.pokemon[activePokemonEnemy].hp = 0;
-        cout <<string(30, ' ')<< "El " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " rival se ha debilitado!\n";
+    if (equipoEnemigo.pokemon[pokemonEnemigoActivo].hp <= 0) {
+        equipoEnemigo.pokemon[pokemonEnemigoActivo].hp = 0;
+        cout <<string(30, ' ')<< "El " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " rival se ha debilitado!\n";
 
         // Al ser la IA, avanzamos al siguiente de forma secuencial (del 0 al 5)
-        if (activePokemonEnemy < 5) {
-            activePokemonEnemy++;
-            cout <<string(30, ' ')<< "El rival envia a " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " a la arena!\n\n";
+        if (pokemonEnemigoActivo < 5) {
+            pokemonEnemigoActivo++;
+            cout <<string(30, ' ')<< "El rival envia a " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " a la arena!\n\n";
             } else {
             enemigoVivo = false; // Se quedó sin Pokémon, victoria del jugador
         }
@@ -318,8 +318,8 @@ void verificarYProcesarDebilitados() {
 void ejecutarTurno(int indiceAtaque) {
     int indiceAtaqueEnemigo = rand() % 4;
 
-    Movimiento movAliado = equipoAliado.pokemon[activePokemon].movimientos[indiceAtaque];
-    Movimiento movEnemigo = equipoEnemigo.pokemon[activePokemonEnemy].movimientos[indiceAtaqueEnemigo];
+    Movimiento movAliado = equipoAliado.pokemon[pokemonActivo].movimientos[indiceAtaque];
+    Movimiento movEnemigo = equipoEnemigo.pokemon[pokemonEnemigoActivo].movimientos[indiceAtaqueEnemigo];
 
     bool jugadorPrimero = aliadoAtacaPrimero();
     
@@ -329,16 +329,16 @@ void ejecutarTurno(int indiceAtaque) {
     
     if (jugadorPrimero) {
         // === JUGADOR ES MÁS RÁPIDO ===
-        cout <<string(30,' ')<< "* " << equipoAliado.pokemon[activePokemon].nombre << " es mas rapido!\n";
-        cout <<string(30,' ')<< "-> " << equipoAliado.pokemon[activePokemon].nombre << " usa " << movAliado.nombre << "!\n";
+        cout <<string(30,' ')<< "* " << equipoAliado.pokemon[pokemonActivo].nombre << " es mas rapido!\n";
+        cout <<string(30,' ')<< "-> " << equipoAliado.pokemon[pokemonActivo].nombre << " usa " << movAliado.nombre << "!\n";
         
-        int danioAlEnemigo = calcularDano(equipoAliado.pokemon[activePokemon], equipoEnemigo.pokemon[activePokemonEnemy], movAliado);
-        equipoEnemigo.pokemon[activePokemonEnemy].hp -= danioAlEnemigo;
+        int danioAlEnemigo = calcularDano(equipoAliado.pokemon[pokemonActivo], equipoEnemigo.pokemon[pokemonEnemigoActivo], movAliado);
+        equipoEnemigo.pokemon[pokemonEnemigoActivo].hp -= danioAlEnemigo;
         puntosBatallaActual += danioAlEnemigo;
         cout <<string(30,' ')<< "-> Causo " << danioAlEnemigo << " puntos de danio.\n\n";
         
         // CORRECCIÓN: Si el enemigo muere aquí, ya no puede contraatacar
-        if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
+        if (equipoEnemigo.pokemon[pokemonEnemigoActivo].hp <= 0) {
             verificarYProcesarDebilitados();
             leerAscii("../model/assets/marcoArriba.txt");
             Sleep(4000);
@@ -347,12 +347,12 @@ void ejecutarTurno(int indiceAtaque) {
         
 
         // El enemigo ataca sólo si sobrevivió
-        cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " usa " << movEnemigo.nombre << "!\n";
-        int danioAlAliado = calcularDano(equipoEnemigo.pokemon[activePokemonEnemy], equipoAliado.pokemon[activePokemon], movEnemigo);
-        equipoAliado.pokemon[activePokemon].hp -= danioAlAliado;
+        cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " usa " << movEnemigo.nombre << "!\n";
+        int danioAlAliado = calcularDano(equipoEnemigo.pokemon[pokemonEnemigoActivo], equipoAliado.pokemon[pokemonActivo], movEnemigo);
+        equipoAliado.pokemon[pokemonActivo].hp -= danioAlAliado;
         cout <<string(30,' ')<< "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
         
-        if (equipoAliado.pokemon[activePokemon].hp <= 0) {
+        if (equipoAliado.pokemon[pokemonActivo].hp <= 0) {
             verificarYProcesarDebilitados();
         }else{
         leerAscii("../model/assets/marcoArriba.txt");
@@ -361,27 +361,27 @@ void ejecutarTurno(int indiceAtaque) {
     } 
     else {
         // === ENEMIGO ES MÁS RÁPIDO ===
-        cout <<string(30,' ')<< "El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre << " es mas rapido!\n";
+        cout <<string(30,' ')<< "El rival " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " es mas rapido!\n";
         cout <<string(30,' ')<< "-> El rival usa " << movEnemigo.nombre << "!\n";
         
-        int danioAlAliado = calcularDano(equipoEnemigo.pokemon[activePokemonEnemy], equipoAliado.pokemon[activePokemon], movEnemigo);
-        equipoAliado.pokemon[activePokemon].hp -= danioAlAliado;
+        int danioAlAliado = calcularDano(equipoEnemigo.pokemon[pokemonEnemigoActivo], equipoAliado.pokemon[pokemonActivo], movEnemigo);
+        equipoAliado.pokemon[pokemonActivo].hp -= danioAlAliado;
         cout <<string(30,' ')<< "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
 
         // CORRECCIÓN: Si el jugador muere aquí, se cancela su ataque
-        if (equipoAliado.pokemon[activePokemon].hp <= 0) {
+        if (equipoAliado.pokemon[pokemonActivo].hp <= 0) {
             verificarYProcesarDebilitados();
             return;
         }
 
         // El jugador ataca sólo si sobrevivió
-        cout <<"\n"<<string(30,' ')<< "-> " << equipoAliado.pokemon[activePokemon].nombre << " usa " << movAliado.nombre << "!\n";
-        int danioAlEnemigo = calcularDano(equipoAliado.pokemon[activePokemon], equipoEnemigo.pokemon[activePokemonEnemy], movAliado);
-        equipoEnemigo.pokemon[activePokemonEnemy].hp -= danioAlEnemigo;
+        cout <<"\n"<<string(30,' ')<< "-> " << equipoAliado.pokemon[pokemonActivo].nombre << " usa " << movAliado.nombre << "!\n";
+        int danioAlEnemigo = calcularDano(equipoAliado.pokemon[pokemonActivo], equipoEnemigo.pokemon[pokemonEnemigoActivo], movAliado);
+        equipoEnemigo.pokemon[pokemonEnemigoActivo].hp -= danioAlEnemigo;
         puntosBatallaActual += danioAlEnemigo;
         cout <<string(30,' ')<< "-> Causo " << danioAlEnemigo << " puntos de danio.\n\n";
         
-        if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
+        if (equipoEnemigo.pokemon[pokemonEnemigoActivo].hp <= 0) {
             verificarYProcesarDebilitados();
         }else{
         leerAscii("../model/assets/marcoArriba.txt");
@@ -400,14 +400,14 @@ void procesarContraataquePorCambio() {
     
     // La IA elige un movimiento al azar de sus 4 opciones
     int indiceAtaqueEnemigo = rand() % 4;
-    Movimiento movEnemigo = equipoEnemigo.pokemon[activePokemonEnemy].movimientos[indiceAtaqueEnemigo];
+    Movimiento movEnemigo = equipoEnemigo.pokemon[pokemonEnemigoActivo].movimientos[indiceAtaqueEnemigo];
     
-    cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre 
+    cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre 
          << " aprovecha y usa " << movEnemigo.nombre << "!\n";
     
     // Calculamos el daño con las funciones nativas y restamos la vida
-    int danioAlAliado = calcularDano(equipoEnemigo.pokemon[activePokemonEnemy], equipoAliado.pokemon[activePokemon], movEnemigo);
-    equipoAliado.pokemon[activePokemon].hp -= danioAlAliado;
+    int danioAlAliado = calcularDano(equipoEnemigo.pokemon[pokemonEnemigoActivo], equipoAliado.pokemon[pokemonActivo], movEnemigo);
+    equipoAliado.pokemon[pokemonActivo].hp -= danioAlAliado;
     
     cout <<string(30,' ')<< "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
     leerAscii("../model/assets/marcoArriba.txt");

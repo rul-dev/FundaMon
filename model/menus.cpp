@@ -7,7 +7,7 @@ using namespace std;
 
 // NOTE: Aqui deberian de ir TODOS los menús, es mejor para evitar redundancias de menús, si agregan algun menu, avisenme y lo pongo aquí
 
-void fightMenu();
+void menuCombate();
 
 void pantallaBienvenida(){
     system("cls");
@@ -45,11 +45,11 @@ void principalMenu()
             system("cls");
             iniciarBatalla();
             // 4. Entramos al flujo de turnos
-            fightMenu();
+            menuCombate();
             break;
         case 2:
             system("cls");
-            mostrarLeaderboard();
+            mostrarTablaClasificacion();
             cout <<string(75, ' ')<< "Presiona cualquier tecla para volver al menu principal..." << endl;
             leerAscii("../model/assets/marco3.txt");
             _getch();
@@ -68,7 +68,7 @@ void principalMenu()
 }
 
 // menú de batalla despues de darle a jugar
-void fightMenu()
+void menuCombate()
 {
     int fightOption = 0;
 
@@ -103,15 +103,15 @@ void fightMenu()
         {
             system("cls");
             // Guardamos el índice del Pokémon antes de abrir el catálogo de cambios
-            int pokemonPrevio = activePokemon;
+            int pokemonPrevio = pokemonActivo;
 
             infoPokemon();
             cambiarPokemonBatalla();
             system("cls");
 
-            // Si activePokemon cambió, significa que el usuario concretó un cambio válido
+            // Si pokemonActivo cambió, significa que el usuario concretó un cambio válido
             // (No aplica si presionó '0' para arrepentirse y regresar)
-            if (activePokemon != pokemonPrevio)
+            if (pokemonActivo != pokemonPrevio)
             {
                 // Invocamos la nueva función del motor de batalla
                 procesarContraataquePorCambio();
@@ -141,7 +141,7 @@ void fightMenu()
     // Al romperse el bucle por derrota de algún bando, evaluamos el fin de juego
     if (fightOption != 3)
     {
-        score += puntosBatallaActual;
+        puntaje += puntosBatallaActual;
     }
 
     if (fightOption == 3)
@@ -150,7 +150,7 @@ void fightMenu()
         cout <<string(35, ' ')<<"Has huido de la batalla..." << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<< "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout <<string(40, ' ')<< "Puntos acumulados de la partida: " << puntaje << " pts\n" << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
@@ -164,7 +164,7 @@ void fightMenu()
         cout <<string(35, ' ')<< "GAME OVER - Has sido derrotado" << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<<  "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout <<string(40, ' ')<<  "Puntos acumulados de la partida: " << puntaje << " pts\n" << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
@@ -176,7 +176,7 @@ void fightMenu()
         cout <<string(35, ' ')<< "VICTORIA! Has ganado la batalla!" << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<<   "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout <<string(40, ' ')<<   "Puntos acumulados de la partida: " << puntaje << " pts\n" << endl;
         leerAscii("../model/assets/marco2.txt");
         cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
@@ -185,9 +185,9 @@ void fightMenu()
 
     guardarPartida();
 
-    if (puntosBatallaActual > 0 && !savedLeaderboardThisBattle)
+    if (puntosBatallaActual > 0 && !tablaGuardadaEstaBatalla)
     {
-        guardarPuntosEnLeaderboard(puntosBatallaActual, username);
-        savedLeaderboardThisBattle = true;
+        guardarPuntosEnClasificacion(puntosBatallaActual, nombreUsuario);
+        tablaGuardadaEstaBatalla = true;
     }
 }
