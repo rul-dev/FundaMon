@@ -50,7 +50,8 @@ void principalMenu()
         case 2:
             system("cls");
             mostrarLeaderboard();
-            cout << "\nPresiona cualquier tecla para volver al menú principal..." << endl;
+            cout <<string(75, ' ')<< "Presiona cualquier tecla para volver al menu principal..." << endl;
+            leerAscii("../model/assets/marco3.txt");
             _getch();
             break;
         case 3:

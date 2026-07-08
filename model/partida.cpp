@@ -238,13 +238,16 @@ void mostrarLeaderboard()
         }
     }
 
-    cout << "\n=== TOP PUNTUACIONES ===\n";
+    leerAscii("../model/assets/puntaje.txt");
     if (cantidad == 0) cout << "Aun no hay puntajes registrados.\n";
     else {
         int limite = cantidad < 10 ? cantidad : 10;
-        for (int i = 0; i < limite; ++i) cout << i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts\n";
+        cout <<"\n"<<string(77, ' ')<<"+------------- Top Puntajes --------------+\n";
+        for (int i = 0; i < limite; ++i) 
+        cout <<"\n"<<string(85, ' ')<<i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts";
     }
-    cout << "========================\n";
+    cout <<"\n\n"<<string(77, ' ') << "+-----------------------------------------+\n\n";
+    leerAscii("../model/assets/marco3.txt");
 }
 
 #endif
