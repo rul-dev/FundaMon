@@ -95,14 +95,14 @@ void guardarPartida(){
 
 void iniciarSesion(){
     int loadingUserOption = 0;
-    leerAscii("model/assets/inicioSesion.txt");
+    leerAscii("../model/assets/inicioSesion.txt");
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
     while (!(loadingUserOption >= 1 && loadingUserOption <= 2)){
         cin >> loadingUserOption;
         // Le deja saber al usuario que su opción es inválida
         if(!(loadingUserOption >= 1 && loadingUserOption <= 2)){
             system("cls");
-            leerAscii("model/assets/inicioSesionInvalido.txt");
+            leerAscii("../model/assets/inicioSesionInvalido.txt");
         }
     }
     system("cls");
@@ -111,7 +111,7 @@ void iniciarSesion(){
         // Continuar partida
         if(!cargarPartida()){
             // El .txt no existe entonces no hay partida guardada
-            leerAscii("model/assets/crearGuardado2.txt");
+            leerAscii("../model/assets/crearGuardado2.txt");
             loadingUserOption = 2; // cae al bloque de nueva partida
         }
     }
@@ -123,7 +123,7 @@ void iniciarSesion(){
         puntosBatallaActual = 0;
         ultimaFecha = obtenerFechaHoy();
 
-        leerAscii("model/assets/crearGuardado.txt");
+        leerAscii("../model/assets/crearGuardado.txt");
         cout << string(90, ' '); //añade 90 espacios vacios, durisimo no?
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
@@ -140,20 +140,20 @@ void iniciarSesion(){
 void guardarSesionAlSalir(){
     char opcion;
     system("cls");
-    leerAscii("model/assets/menuPrincipalSalir.txt");
+    leerAscii("../model/assets/menuPrincipalSalir.txt");
     cin >> opcion;
     system("cls");
     
     if(opcion == 's' || opcion == 'S'){
-        leerAscii("model/assets/marcoArriba.txt");
+        leerAscii("../model/assets/marcoArriba.txt");
         cout <<string(85, ' ') <<"Hasta luego, " << username << "!\n\n";
-        leerAscii("model/assets/marcoArriba.txt");
+        leerAscii("../model/assets/marcoArriba.txt");
         guardarPartida();
     }else{
         // Los datos guardados se quedan igual, solo despedimos
-        leerAscii("model/assets/marcoArriba.txt");
+        leerAscii("../model/assets/marcoArriba.txt");
         cout <<string(70, ' ') << "Adios, " << username << ". Los datos no fueron actualizados.\n\n";
-        leerAscii("model/assets/marcoArriba.txt");
+        leerAscii("../model/assets/marcoArriba.txt");
     }
 
     existePartida = true; // la partida sigue existiendo en disco
@@ -238,13 +238,16 @@ void mostrarLeaderboard()
         }
     }
 
-    cout << "\n=== TOP PUNTUACIONES ===\n";
+    leerAscii("../model/assets/puntaje.txt");
     if (cantidad == 0) cout << "Aun no hay puntajes registrados.\n";
     else {
         int limite = cantidad < 10 ? cantidad : 10;
-        for (int i = 0; i < limite; ++i) cout << i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts\n";
+        cout <<"\n"<<string(77, ' ')<<"+------------- Top Puntajes --------------+\n";
+        for (int i = 0; i < limite; ++i) 
+        cout <<"\n"<<string(85, ' ')<<i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts";
     }
-    cout << "========================\n";
+    cout <<"\n\n"<<string(77, ' ') << "+-----------------------------------------+\n\n";
+    leerAscii("../model/assets/marco3.txt");
 }
 
 #endif

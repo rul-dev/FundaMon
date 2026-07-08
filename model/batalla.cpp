@@ -40,20 +40,20 @@ bool enemigoVivo = true;
 
 void infoPokemon(){
     //Datos del enemigo y nosotros
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
     cout <<string(110, ' ') <<"* RIVAL: " << equipoEnemigo.pokemon[activePokemonEnemy].nombre
          << " - Nv.60 (HP: " << equipoEnemigo.pokemon[activePokemonEnemy].hp << ")\n\n";
-    leerAscii("model/assets/marco2.txt");
-    leerAscii("model/assets/marco2.txt");
+    leerAscii("../model/assets/marco2.txt");
+    leerAscii("../model/assets/marco2.txt");
     cout <<"\n"<<string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[activePokemon].nombre
          << " - Nv.60 (HP: " << equipoAliado.pokemon[activePokemon].hp << ")\n\n";
 }
 
 // Función para mostrar los 4 ataques y validar la opción
 void menuMovimientos(){
-    leerAscii("model/assets/marco3.txt");
+    leerAscii("../model/assets/marco3.txt");
     cout << string(30,' ')<<"  Movimientos de " << equipoAliado.pokemon[activePokemon].nombre << "\n";
-    leerAscii("model/assets/marco2.txt");
+    leerAscii("../model/assets/marco2.txt");
     cout<<"\n";
 
     for (int i = 0; i < 4; i++)
@@ -72,9 +72,9 @@ int seleccionarAtaque()
 
     int opcionAtaque = 0;
     menuMovimientos();
-    leerAscii("model/assets/marco2.txt");
+    leerAscii("../model/assets/marco2.txt");
     cout <<string(30,' ')<< "Elige un ataque (1-4 y presione enter) o 0 para regresar\n";
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
     cin >> opcionAtaque;
 
     while (opcionAtaque < 0 || opcionAtaque > 4)
@@ -82,9 +82,9 @@ int seleccionarAtaque()
         system("cls");
         infoPokemon();
         menuMovimientos();
-        leerAscii("model/assets/marco2.txt");
+        leerAscii("../model/assets/marco2.txt");
         cout <<string(30,' ')<< "Opcion invalida. Intenta de nuevo (0-4)\n";
-        leerAscii("model/assets/marcoArriba.txt");
+        leerAscii("../model/assets/marcoArriba.txt");
         cin >> opcionAtaque;
     }
 
@@ -94,34 +94,43 @@ int seleccionarAtaque()
     return opcionAtaque - 1;
 }
 
-// Función para cambiar de Pokémon en medio de la batalla
-void cambiarPokemonBatalla()
-{
-    int opcionElegida = 0;
+void verPokemones(){
 
-    cout << "\nElige un pokemon:\n";
-    cout << "---------------------------------------------\n";
+    leerAscii("../model/assets/marco3.txt");
+    cout <<string(30, ' ')<< "Elige un pokemon\n";
+    leerAscii("../model/assets/marco2.txt");
 
     for (int f = 0; f < 6; f++)
     {
         if (equipoAliado.pokemon[f].hp > 0 && f != activePokemon)
         {
-            cout << f + 1 << ". " << equipoAliado.pokemon[f].nombre
+            cout <<string(35, ' ')<< f + 1 << ". " << equipoAliado.pokemon[f].nombre
                  << " - HP: " << equipoAliado.pokemon[f].hp << "\n";
         }
         else if (f == activePokemon)
         {
-            cout << f + 1 << ". " << equipoAliado.pokemon[f].nombre << " (EN COMBATE)\n";
+            cout <<string(35, ' ')<< f + 1 << ". " << equipoAliado.pokemon[f].nombre << " (EN COMBATE)\n";
         }
         else
         {
-            cout << f + 1 << ". " << equipoAliado.pokemon[f].nombre << " (DEBILITADO)\n";
+            cout <<string(35, ' ')<< f + 1 << ". " << equipoAliado.pokemon[f].nombre << " (DEBILITADO)\n";
         }
     }
 
-    cout << "0. Regresar\n";
-    cout << "---------------------------------------------\n";
-    cout << "Ingresa el numero del Pokemon o 0 para regresar: ";
+    cout <<string(35, ' ')<< "0. Regresar\n";
+
+}
+
+// Función para cambiar de Pokémon en medio de la batalla
+void cambiarPokemonBatalla()
+{
+    int opcionElegida = 0;
+
+    verPokemones();
+
+    leerAscii("../model/assets/marco2.txt");
+    cout <<string(30, ' ')<< "Ingresa el numero del Pokemon o 0 para regresar!\n";
+    leerAscii("../model/assets/marcoArriba.txt");
     cin >> opcionElegida;
 
     if (opcionElegida == 0)
@@ -134,21 +143,34 @@ void cambiarPokemonBatalla()
 
     while (index < 0 || index > 5 || equipoAliado.pokemon[index].hp <= 0 || index == activePokemon)
     {
-        cout << "Opción inválida, intenta de nuevo (0 para regresar): ";
+        system("cls");
+        infoPokemon();
+        verPokemones();
+        leerAscii("../model/assets/marco2.txt");
+        cout <<string(30, ' ')<< "Opcion invalida, intenta de nuevo (0 para regresar)\n";
+        leerAscii("../model/assets/marcoArriba.txt");
         cin >> opcionElegida;
         if (opcionElegida == 0)
             system("cls");
+            index = opcionElegida - 1;
         return; // También puede regresar desde aquí
-        index = opcionElegida - 1;
+        
     }
 
     activePokemon = index;
-    cout << "\n-> Regresa! Adelante, " << equipoAliado.pokemon[activePokemon].nombre << "!\n";
+
+    system("cls");
+    infoPokemon();
+    verPokemones();
+    leerAscii("../model/assets/marco2.txt");
+    cout <<string(30, ' ')<<  "-> Regresa! Adelante, " << equipoAliado.pokemon[activePokemon].nombre << "!\n";
+    leerAscii("../model/assets/marcoArriba.txt");
+    Sleep(1500);
 }
 
 void iniciarBatalla() {
     
-    leerAscii("model/assets/iniciarBatalla.txt");
+    leerAscii("../model/assets/iniciarBatalla.txt");
 
     puntosBatallaActual = 0;
     prepararFaseSeleccion();
@@ -164,7 +186,7 @@ void iniciarBatalla() {
 
     cout << string(60, ' ')<<"-> El rival ha preparado su equipo de forma aleatoria!\n";
     cout << string(60, ' ')<<"-> Todos los pokemones han sido nivelados al Nivel 60 para el torneo!\n"<<endl;
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
     Sleep(3500); //es para que espere 3 segundos
     system("cls");
     
@@ -262,7 +284,7 @@ void verificarYProcesarDebilitados() {
 
         if (quedanVivos) {
             cout <<string(30, ' ')<< "Debes elegir a otro miembro de tu equipo para continuar.\n\n";
-            leerAscii("model/assets/marcoArriba.txt");
+            leerAscii("../model/assets/marcoArriba.txt");
             Sleep(4500);
             system("cls");
             
@@ -270,6 +292,7 @@ void verificarYProcesarDebilitados() {
             // Guardamos el índice actual; si no cambia con éxito, el bucle insistirá.
             int indexAnterior = activePokemon;
             while (activePokemon == indexAnterior) {
+                infoPokemon();
                 cambiarPokemonBatalla();
             }
         } else {
@@ -302,7 +325,7 @@ void ejecutarTurno(int indiceAtaque) {
     
     system("cls");
     infoPokemon();
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
     
     if (jugadorPrimero) {
         // === JUGADOR ES MÁS RÁPIDO ===
@@ -317,7 +340,7 @@ void ejecutarTurno(int indiceAtaque) {
         // CORRECCIÓN: Si el enemigo muere aquí, ya no puede contraatacar
         if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
             verificarYProcesarDebilitados();
-            leerAscii("model/assets/marcoArriba.txt");
+            leerAscii("../model/assets/marcoArriba.txt");
             Sleep(4000);
             return; 
         }
@@ -331,9 +354,10 @@ void ejecutarTurno(int indiceAtaque) {
         
         if (equipoAliado.pokemon[activePokemon].hp <= 0) {
             verificarYProcesarDebilitados();
-        }
-        leerAscii("model/assets/marcoArriba.txt");
+        }else{
+        leerAscii("../model/assets/marcoArriba.txt");
         Sleep(5000);
+        }
     } 
     else {
         // === ENEMIGO ES MÁS RÁPIDO ===
@@ -359,23 +383,26 @@ void ejecutarTurno(int indiceAtaque) {
         
         if (equipoEnemigo.pokemon[activePokemonEnemy].hp <= 0) {
             verificarYProcesarDebilitados();
+        }else{
+        leerAscii("../model/assets/marcoArriba.txt");
+        Sleep(4000);
         }
-
-    leerAscii("model/assets/marcoArriba.txt");
-    Sleep(4000);
     }
     
 }
 
 void procesarContraataquePorCambio() {
-    cout << "\n=============================================\n";
-    cout << "Le diste una oportunidad al rival por cambiar!\n";
+    system("cls");
+    infoPokemon();
+    leerAscii("../model/assets/marco3.txt");
+    cout <<string(30, ' ')<<"Le diste una oportunidad al rival por cambiar!\n";
+    leerAscii("../model/assets/marco2.txt");
     
     // La IA elige un movimiento al azar de sus 4 opciones
     int indiceAtaqueEnemigo = rand() % 4;
     Movimiento movEnemigo = equipoEnemigo.pokemon[activePokemonEnemy].movimientos[indiceAtaqueEnemigo];
     
-    cout <<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre 
+    cout <<"\n"<<string(30,' ')<< "-> El rival " << equipoEnemigo.pokemon[activePokemonEnemy].nombre 
          << " aprovecha y usa " << movEnemigo.nombre << "!\n";
     
     // Calculamos el daño con las funciones nativas y restamos la vida
@@ -383,9 +410,10 @@ void procesarContraataquePorCambio() {
     equipoAliado.pokemon[activePokemon].hp -= danioAlAliado;
     
     cout <<string(30,' ')<< "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
-    leerAscii("model/assets/marcoArriba.txt");
+    leerAscii("../model/assets/marcoArriba.txt");
     Sleep(3000);
 
     // Verificamos de inmediato si el Pokémon entrante resistió o se debilitó por el golpe
     verificarYProcesarDebilitados();
+    
 }

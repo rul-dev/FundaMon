@@ -11,7 +11,7 @@ void fightMenu();
 
 void pantallaBienvenida(){
     system("cls");
-    leerAscii("model/assets/pokedevs.txt"); //chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
+    leerAscii("../model/assets/pokedevs.txt"); //chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
     _getch();
     system("cls");
 }
@@ -25,7 +25,7 @@ void principalMenu()
     while (principalOption != 3)
     {
         system("cls");
-        leerAscii("model/assets/menuPrincipal.txt");
+        leerAscii("../model/assets/menuPrincipal.txt");
         
         // esto es una validacion por si el usuario mete algo que no sea 1,2 o 3
         do {
@@ -34,7 +34,7 @@ void principalMenu()
             // Si la opción no es válida, limpia y cambia el menú al de error
             if (!(principalOption >= 1 && principalOption <= 3)) {
                 system("cls");
-                leerAscii("model/assets/menuPrincipalInvalido.txt");
+                leerAscii("../model/assets/menuPrincipalInvalido.txt");
                 
             }
         } while (!(principalOption >= 1 && principalOption <= 3)); // Se repite si es inválido :D
@@ -50,7 +50,8 @@ void principalMenu()
         case 2:
             system("cls");
             mostrarLeaderboard();
-            cout << "\nPresiona cualquier tecla para volver al menú principal..." << endl;
+            cout <<string(75, ' ')<< "Presiona cualquier tecla para volver al menu principal..." << endl;
+            leerAscii("../model/assets/marco3.txt");
             _getch();
             break;
         case 3:
@@ -58,7 +59,7 @@ void principalMenu()
             Sleep(3000);
             break;
         default:
-            leerAscii("model/assets/menuPrincipalInvalido.txt");
+            leerAscii("../model/assets/menuPrincipalInvalido.txt");
             cin >> principalOption;
             system("cls");
             
@@ -77,7 +78,7 @@ void fightMenu()
         infoPokemon();
 
         //menú de pelea en si
-        leerAscii("model/assets/menuPelea.txt");
+        leerAscii("../model/assets/menuPelea.txt");
         cin >> fightOption;
 
         switch (fightOption)
@@ -104,6 +105,7 @@ void fightMenu()
             // Guardamos el índice del Pokémon antes de abrir el catálogo de cambios
             int pokemonPrevio = activePokemon;
 
+            infoPokemon();
             cambiarPokemonBatalla();
             system("cls");
 
@@ -113,20 +115,23 @@ void fightMenu()
             {
                 // Invocamos la nueva función del motor de batalla
                 procesarContraataquePorCambio();
+                system("cls");
             }
         }
         break;
 
         case 3:
             system("cls");
-            cout << "\nHas huido de la batalla de forma segura!" << endl;
-            Sleep(2000);
+            infoPokemon();
+            leerAscii("../model/assets/marco3.txt");
+            system("cls");
+            infoPokemon();
             break;
 
         default:
             system("cls");
             infoPokemon();
-            leerAscii("model/assets/menuPeleaInvalido.txt");
+            leerAscii("../model/assets/menuPeleaInvalido.txt");
             Sleep(1000);
             system("cls");
             break;
@@ -141,33 +146,40 @@ void fightMenu()
 
     if (fightOption == 3)
     {
-        cout << "\n=============================================\n";
-        cout << "        Has huido de la batalla              " << endl;
-        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
-        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
-        cout << "=============================================\n";
+        leerAscii("../model/assets/marco3.txt");
+        cout <<string(35, ' ')<<"Has huido de la batalla..." << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout <<string(40, ' ')<< "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        leerAscii("../model/assets/marcoArriba.txt");
         _getch();
         
 
     }
     else if (!aliadoVivo)
     {
-        cout << "\n=============================================\n";
-        cout << "      GAME OVER - Has sido derrotado         " << endl;
-        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
-        cout << "\nPresione cualquier tecla para continuar!\n\n" << endl;
-        cout << "=============================================\n";
+        leerAscii("../model/assets/marco3.txt");
+        cout <<string(35, ' ')<< "GAME OVER - Has sido derrotado" << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout <<string(40, ' ')<<  "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        leerAscii("../model/assets/marcoArriba.txt");
         _getch();
     }
     else if (!enemigoVivo)
     {
-        cout << "\n=============================================\n";
-        cout << "     VICTORIA! Has ganado la batalla!       \n" << endl;
-        cout << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout << "Puntos acumulados de la partida: " << score << " pts" << endl;
-        cout << "\n\nPresione cualquier tecla para continuar!\n" << endl;
-        cout << "=============================================\n";
+        leerAscii("../model/assets/marco3.txt");
+        cout <<string(35, ' ')<< "VICTORIA! Has ganado la batalla!" << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout <<string(40, ' ')<<   "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        leerAscii("../model/assets/marco2.txt");
+        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        leerAscii("../model/assets/marcoArriba.txt");
         _getch();
     }
 
