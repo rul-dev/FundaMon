@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h> // es para el _getch
 #include "../model/batalla.cpp"
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -9,9 +10,11 @@ using namespace std;
 
 void fightMenu();
 
-void pantallaBienvenida(){
+void pantallaBienvenida()
+{
+    PlaySound(TEXT("../model/assets/Title_Screen.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     system("cls");
-    leerAscii("../model/assets/pokedevs.txt"); //chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
+    leerAscii("../model/assets/pokedevs.txt"); // chambón? si, pero funciona, si se cambia la ruta assets, tambien se tendra que cambiar esto
     _getch();
     system("cls");
 }
@@ -26,16 +29,17 @@ void principalMenu()
     {
         system("cls");
         leerAscii("../model/assets/menuPrincipal.txt");
-        
+
         // esto es una validacion por si el usuario mete algo que no sea 1,2 o 3
-        do {
+        do
+        {
             cin >> principalOption;
 
             // Si la opción no es válida, limpia y cambia el menú al de error
-            if (!(principalOption >= 1 && principalOption <= 3)) {
+            if (!(principalOption >= 1 && principalOption <= 3))
+            {
                 system("cls");
                 leerAscii("../model/assets/menuPrincipalInvalido.txt");
-                
             }
         } while (!(principalOption >= 1 && principalOption <= 3)); // Se repite si es inválido :D
 
@@ -46,15 +50,19 @@ void principalMenu()
             iniciarBatalla();
             // 4. Entramos al flujo de turnos
             fightMenu();
+
+            // Reanudar la música del menú al salir de la batalla
+            PlaySound(TEXT("../model/assets/Title_Screen.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
             break;
         case 2:
             system("cls");
             mostrarLeaderboard();
-            cout <<string(75, ' ')<< "Presiona cualquier tecla para volver al menu principal..." << endl;
+            cout << string(75, ' ') << "Presiona cualquier tecla para volver al menu principal..." << endl;
             leerAscii("../model/assets/marco3.txt");
             _getch();
             break;
         case 3:
+            PlaySound(NULL, 0, 0);
             guardarSesionAlSalir();
             Sleep(3000);
             break;
@@ -62,7 +70,6 @@ void principalMenu()
             leerAscii("../model/assets/menuPrincipalInvalido.txt");
             cin >> principalOption;
             system("cls");
-            
         }
     }
 }
@@ -70,6 +77,9 @@ void principalMenu()
 // menú de batalla despues de darle a jugar
 void fightMenu()
 {
+    // 1. INICIAR MÚSICA DE BATALLA: Asíncrona (no detiene el juego) y en Bucle (Loop)
+    // Nota: Asegúrate de que la ruta sea correcta, ej: "model/assets/Battle_Theme.wav"
+    PlaySound(TEXT("../model/assets/Battle_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     int fightOption = 0;
 
     // El ciclo se ejecuta mientras ambos lados sigan en condiciones de pelear y no se huya
@@ -77,7 +87,7 @@ void fightMenu()
     {
         infoPokemon();
 
-        //menú de pelea en si
+        // menú de pelea en si
         leerAscii("../model/assets/menuPelea.txt");
         cin >> fightOption;
 
@@ -147,38 +157,42 @@ void fightMenu()
     if (fightOption == 3)
     {
         leerAscii("../model/assets/marco3.txt");
-        cout <<string(35, ' ')<<"Has huido de la batalla..." << endl;
+        cout << string(35, ' ') << "Has huido de la batalla..." << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<< "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout << "\n"
+             << string(40, ' ') << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << string(40, ' ') << "Puntos acumulados de la partida: " << score << " pts\n"
+             << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        cout << string(35, ' ') << "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
         _getch();
-        
-
     }
     else if (!aliadoVivo)
     {
         leerAscii("../model/assets/marco3.txt");
-        cout <<string(35, ' ')<< "GAME OVER - Has sido derrotado" << endl;
+        cout << string(35, ' ') << "GAME OVER - Has sido derrotado" << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<<  "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout << "\n"
+             << string(40, ' ') << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << string(40, ' ') << "Puntos acumulados de la partida: " << score << " pts\n"
+             << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        cout << string(35, ' ') << "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
         _getch();
     }
     else if (!enemigoVivo)
     {
         leerAscii("../model/assets/marco3.txt");
-        cout <<string(35, ' ')<< "VICTORIA! Has ganado la batalla!" << endl;
+        cout << string(35, ' ') << "VICTORIA! Has ganado la batalla!" << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<"\n"<<string(40, ' ')<< "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
-        cout <<string(40, ' ')<<   "Puntos acumulados de la partida: " << score << " pts\n" << endl;
+        cout << "\n"
+             << string(40, ' ') << "Puntos ganados en esta batalla: " << puntosBatallaActual << " pts" << endl;
+        cout << string(40, ' ') << "Puntos acumulados de la partida: " << score << " pts\n"
+             << endl;
         leerAscii("../model/assets/marco2.txt");
-        cout <<string(35, ' ')<< "Presione cualquier tecla para continuar!" << endl;
+        cout << string(35, ' ') << "Presione cualquier tecla para continuar!" << endl;
         leerAscii("../model/assets/marcoArriba.txt");
         _getch();
     }
@@ -190,4 +204,8 @@ void fightMenu()
         guardarPuntosEnLeaderboard(puntosBatallaActual, username);
         savedLeaderboardThisBattle = true;
     }
+
+    // 2. DETENER MÚSICA DE BATALLA: Al salir de la función, apagamos el sonido
+    // pasándole NULL para regresar en silencio al menú principal.
+    PlaySound(NULL, 0, 0);
 }
