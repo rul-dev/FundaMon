@@ -2,10 +2,10 @@
 #define PARTIDA_CPP
 
 #include <iostream>
-#include <fstream>
+#include <fstream> // es para leer y escribir archivos
 #include <string>
-#include <cstdio>
-#include <cctype>
+#include <cstdio> // es para ocupar snprintf y formatear la fecha
+#include <cctype> // es para usar isdigit y validar que el puntaje sea un número
 #include <ctime> // Librería para recolectar la fecha
 
 using namespace std;
@@ -78,6 +78,7 @@ void leerAscii(string nombreArchivo){ //va a esperar el nombre del archivo que l
 // Guardar partida en partida.txt
 
 void guardarPartida(){
+    // Guardamos los datos de la partida en un archivo de texto
     ofstream archivo("partida.txt");
     if(archivo.is_open()){
         archivo << nombreUsuario << "\n";
@@ -146,6 +147,8 @@ void guardarSesionAlSalir(){
     
     if(opcion == 's' || opcion == 'S'){
         leerAscii("../model/assets/marcoArriba.txt");
+
+        // string(85, ' ') agrega 85 espacios en blanco para centrar el mensaje
         cout <<string(85, ' ') <<"Hasta luego, " << nombreUsuario << "!\n\n";
         leerAscii("../model/assets/marcoArriba.txt");
         guardarPartida();
@@ -167,10 +170,10 @@ void mostrarPuntaje(int puntaje)
 
 void guardarPuntosEnClasificacion(int puntajeActual, string nombreJugador)
 {
-    ofstream archivoEscritura("leaderboard.txt", ios::app);
+    ofstream archivoEscritura("leaderboard.txt", ios::app); // Abrimos el archivo en modo de agregar (append) para no sobrescribir los puntajes existentes
     if (archivoEscritura.is_open())
     {
-        
+        // Guardamos el nombre del jugador y su puntaje en el archivo
         archivoEscritura << nombreJugador << " " << puntajeActual << "\n";
         archivoEscritura.close();
     }
@@ -239,8 +242,11 @@ void mostrarTablaClasificacion()
     }
 
     leerAscii("../model/assets/puntaje.txt");
+
+    // Si no hay puntajes registrados, mostramos un mensaje indicando que no hay datos disponibles
     if (cantidad == 0) cout << "Aun no hay puntajes registrados.\n";
     else {
+        // Mostramos los 10 mejores puntajes o menos si hay menos de 10 registros
         int limite = cantidad < 10 ? cantidad : 10;
         cout <<"\n"<<string(77, ' ')<<"+------------- Top Puntajes --------------+\n";
         for (int i = 0; i < limite; ++i) 
@@ -249,5 +255,5 @@ void mostrarTablaClasificacion()
     cout <<"\n\n"<<string(77, ' ') << "+-----------------------------------------+\n\n";
     leerAscii("../model/assets/marco3.txt");
 }
-
+// Fin de la función mostrarTablaClasificacion
 #endif

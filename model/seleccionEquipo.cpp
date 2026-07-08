@@ -4,7 +4,7 @@ Comienzo para plantear las bases de la selleccion de equipo
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ctime>
+#include <ctime> // es para obtener la fecha actual
 #include "../model/pokedex.cpp"
 #include "../model/partida.cpp"
 
@@ -59,7 +59,7 @@ void guardarEquipoPokemon(Equipo &equipoDestino)
     // Llamamos a la función anterior para que el jugador vea el catálogo en pantalla.
     mostrarPokemones();
     
-    // CICLO PRINCIPAL: Controla los turnos del jugador. Dará exactamente 6 vueltas (de la 0 a la 5).
+    // Ciclo principal, Controla los turnos del jugador. Dará exactamente 6 vueltas (de la 0 a la 5).
     for (int i = 0; i < 6; i++)
     {
         int seleccionUsuario; // Variable para atrapar el número que el jugador teclee en la consola.
@@ -69,7 +69,7 @@ void guardarEquipoPokemon(Equipo &equipoDestino)
         leerAscii("../model/assets/iniciarBatalla.txt");
         mostrarPokemones();
 
-        // EL GUARDIA DE SEGURIDAD (Validación de rango)
+        //Validación de rango
         // Si el jugador escribe un número inválido (mayor a 30 o menor/igual a 0), lo atrapamos en este bucle.
         while (seleccionUsuario > 30 || seleccionUsuario <= 0)
         {

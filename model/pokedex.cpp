@@ -1,9 +1,9 @@
 #include <string>
-#include "structs.cpp" // Asegúrate de que este archivo tenga tus structs definidos
+#include "structs.cpp"
 
 using namespace std;
 
-// Declaramos el arreglo con los primeros 10 Pokémon
+// Declaramos el arreglo con los primeros 30 Pokémon
 Pokemon pokedexDisponible[30] = {
 {
         "Venusaur", 
