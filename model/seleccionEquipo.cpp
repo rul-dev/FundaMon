@@ -65,6 +65,8 @@ void guardarEquipoPokemon(Equipo &equipoDestino)
         int seleccionUsuario; // Variable para atrapar el número que el jugador teclee en la consola.
         cout <<string(75, ' ')<< "Elige tu pokemon segun su numero " << i + 1<<": ";
         cin >> seleccionUsuario; // Leemos la respuesta.
+
+        if(cin.fail()) cin.clear(), cin.ignore(1000, '\n'), seleccionUsuario = 0;
         system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
         leerAscii("../model/assets/iniciarBatalla.txt");
         mostrarPokemones();

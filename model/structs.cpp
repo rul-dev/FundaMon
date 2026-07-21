@@ -21,6 +21,7 @@ struct Pokemon {
     int defensa;
     int defensaEsp;
     Movimiento movimientos[4];
+    string spriteAscii;
 };
 
 struct Equipo {

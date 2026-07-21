@@ -38,21 +38,88 @@ int pokemonEnemigoActivo = 0;
 bool aliadoVivo = true;
 bool enemigoVivo = true;
 
+// 1. Obtiene la vida maxima original buscando al pokemon en la pokedex base
+int obtenerHpMaximo(string nombrePokemon)
+{
+    for (int i = 0; i < 30; i++)
+    {
+        if (pokedexDisponible[i].nombre == nombrePokemon)
+        {
+            // Replicamos la misma fórmula que usaste al iniciarBatalla
+            return (pokedexDisponible[i].hp * 2.5) + 60;
+        }
+    }
+    return 100; // Valor de seguridad
+}
+
+// 2. Genera un string visual de barra de progreso [####----]
+string crearBarraVida(int hpActual, int hpMax)
+{
+    int longitudBarra = 20; // La barra tendrá 20 "cuadritos" de largo
+    if (hpActual < 0)
+        hpActual = 0;
+
+    // Regla de 3 simple para saber cuántos cuadros pintar
+    int bloquesLlenos = (hpActual * longitudBarra) / hpMax;
+
+    string barra = "[";
+    for (int i = 0; i < longitudBarra; i++)
+    {
+        if (i < bloquesLlenos)
+            barra += "#"; // Vida que le queda
+        else
+            barra += "-"; // Vida perdida
+    }
+    barra += "]";
+    return barra;
+}
+
+void imprimirSprite(string sprite, int margen)
+{
+    string espacios(margen, ' ');
+    cout << espacios; // Empujamos la primera línea
+    for (char c : sprite)
+    {
+        cout << c;
+        // Si hay un salto de línea en el dibujo, volvemos a aplicar el margen
+        if (c == '\n')
+            cout << espacios;
+    }
+    cout << "\n";
+}
+
 void infoPokemon()
 {
-    // Datos del enemigo y nosotros
+    // Calculamos la vida máxima real de los que están peleando en este momento
+    int hpMaxEnemigo = obtenerHpMaximo(equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre);
+    int hpMaxAliado = obtenerHpMaximo(equipoAliado.pokemon[pokemonActivo].nombre);
+
     leerAscii("../model/assets/marcoArriba.txt");
 
-    // string(110, ' ') agrega 110 espacios en blanco para centrar el mensaje
-    cout << string(110, ' ') << "* RIVAL: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre
-         << " - Nv.60 (HP: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].hp << ")\n\n";
+    // ==================== ZONA DEL RIVAL ====================
+    cout << string(110, ' ') << "* RIVAL: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " - Nv.60\n";
+
+    // Imprimimos la vida junto con la nueva barra de progreso
+    cout << string(110, ' ') << "  HP: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].hp << "/" << hpMaxEnemigo
+         << " " << crearBarraVida(equipoEnemigo.pokemon[pokemonEnemigoActivo].hp, hpMaxEnemigo) << "\n\n";
+
+    // Imprimimos el sprite del enemigo (Le damos margen de 90 para que se vea a la derecha)
+    imprimirSprite(equipoEnemigo.pokemon[pokemonEnemigoActivo].spriteAscii, 90);
+
     leerAscii("../model/assets/marco2.txt");
     leerAscii("../model/assets/marco2.txt");
 
-    // string(110, ' ') agrega 110 espacios en blanco para centrar el mensaje
+    // ==================== ZONA DE TU POKEMON ====================
+
+    // Imprimimos tu sprite (Le damos margen de 30, igual que a tus textos)
+    imprimirSprite(equipoAliado.pokemon[pokemonActivo].spriteAscii, 30);
+
     cout << "\n"
-         << string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[pokemonActivo].nombre
-         << " - Nv.60 (HP: " << equipoAliado.pokemon[pokemonActivo].hp << ")\n\n";
+         << string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[pokemonActivo].nombre << " - Nv.60\n";
+
+    // Imprimimos la vida junto con la nueva barra de progreso
+    cout << string(30, ' ') << "  HP: " << equipoAliado.pokemon[pokemonActivo].hp << "/" << hpMaxAliado
+         << " " << crearBarraVida(equipoAliado.pokemon[pokemonActivo].hp, hpMaxAliado) << "\n\n";
 }
 
 // Función para mostrar los 4 ataques y validar la opción
@@ -503,7 +570,7 @@ void procesarContraataquePorCambio()
     // Restamos la vida al aliado y mostramos el daño recibido
     equipoAliado.pokemon[pokemonActivo].hp -= danioAlAliado;
     cout << string(30, ' ') << "-> Recibiste " << danioAlAliado << " puntos de danio.\n\n";
-    
+
     leerAscii("../model/assets/marcoArriba.txt");
     Sleep(3000); // Espera 3 segundos antes de continuar
 
