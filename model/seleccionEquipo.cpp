@@ -4,14 +4,14 @@ Comienzo para plantear las bases de la selleccion de equipo
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ctime>
+#include <ctime> // es para obtener la fecha actual
 #include "../model/pokedex.cpp"
 #include "../model/partida.cpp"
 
 
 using namespace std;
 
-void MostrarPokemones()
+void mostrarPokemones()
 {
     // Imprimimos el margen para la primerísima fila
     cout << string(70, ' ');;
@@ -38,7 +38,7 @@ void MostrarPokemones()
 }
 
 //Pasamos el equipo actual que tengamos y el turno en el que van 
-void MostrarProgresoEquipo(Equipo equipoTemporal , int turnoActual)
+void mostrarProgresoEquipo(Equipo equipoTemporal , int turnoActual)
 {
   cout <<string(75, ' ')<<"+-------- Tu equipo actual --------+" << endl;
 
@@ -53,36 +53,38 @@ cout <<string(75, ' ')<< "+----------------------------------+\n" << endl;
 
 }
 
-void GuardarEquipoPokemon(Equipo &equipoDestino)
+void guardarEquipoPokemon(Equipo &equipoDestino)
 {
     
     // Llamamos a la función anterior para que el jugador vea el catálogo en pantalla.
-    MostrarPokemones();
+    mostrarPokemones();
     
-    // CICLO PRINCIPAL: Controla los turnos del jugador. Dará exactamente 6 vueltas (de la 0 a la 5).
+    // Ciclo principal, Controla los turnos del jugador. Dará exactamente 6 vueltas (de la 0 a la 5).
     for (int i = 0; i < 6; i++)
     {
-        int seleccionUser; // Variable para atrapar el número que el jugador teclee en la consola.
+        int seleccionUsuario; // Variable para atrapar el número que el jugador teclee en la consola.
         cout <<string(75, ' ')<< "Elige tu pokemon segun su numero " << i + 1<<": ";
-        cin >> seleccionUser; // Leemos la respuesta.
+        cin >> seleccionUsuario; // Leemos la respuesta.
+
+        if(cin.fail()) cin.clear(), cin.ignore(1000, '\n'), seleccionUsuario = 0;
         system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
         leerAscii("../model/assets/iniciarBatalla.txt");
-        MostrarPokemones();
+        mostrarPokemones();
 
-        // EL GUARDIA DE SEGURIDAD (Validación de rango)
+        //Validación de rango
         // Si el jugador escribe un número inválido (mayor a 30 o menor/igual a 0), lo atrapamos en este bucle.
-        while (seleccionUser > 30 || seleccionUser <= 0)
+        while (seleccionUsuario > 30 || seleccionUsuario <= 0)
         {
             cout <<string(65, ' ')<<"Te has equivocado ingresa de nuevo el numero de pokemon a elegir" << endl;
             cout <<string(75, ' ')<<"Elige tu pokemon segun su numero " << i + 1<<": ";
-            cin >> seleccionUser; // Lo obligamos a escribir de nuevo hasta que ponga un número correcto.
+            cin >> seleccionUsuario; // Lo obligamos a escribir de nuevo hasta que ponga un número correcto.
             system("cls"); //cada que el usuario caioga aqui, se limpiara la pantalla y se mostrará el menu
             leerAscii("../model/assets/iniciarBatalla.txt");
-            MostrarPokemones();
+            mostrarPokemones();
         }
         
         // Traducimos el número que eligió 
-        int indiceReal = seleccionUser - 1;
+        int indiceReal = seleccionUsuario - 1;
 
         // EL DETECTOR DE CLONES (Validación de repetidos)
        
@@ -117,7 +119,7 @@ void GuardarEquipoPokemon(Equipo &equipoDestino)
        //SE IMPRIME EL PROGRESO DEL EQUIPO
        //sE LLAMA LA FUNCION Y LE DAMOS LAS VARIABLES TEMPORALES
 
-      MostrarProgresoEquipo(equipoDestino,i);
+      mostrarProgresoEquipo(equipoDestino,i);
         
     } // Llave de cierre del ciclo principal
     
