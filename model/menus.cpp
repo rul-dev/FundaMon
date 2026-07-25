@@ -57,7 +57,7 @@ void principalMenu()
         case 2:
             system("cls");
             mostrarTablaClasificacion();
-            cout << string(75, ' ') << "Presiona cualquier tecla para volver al menu principal..." << endl;
+            cout << string(63, ' ') << "Presiona cualquier tecla para volver al menu principal..." << endl;
             leerAscii("../model/assets/marco3.txt");
             _getch(); // lee un carácter del teclado de forma inmediata y sin mostrarlo en pantalla
             break;

@@ -132,7 +132,7 @@ void iniciarSesion(){
         ultimaFecha = obtenerFechaHoy();
 
         leerAscii("../model/assets/crearGuardado.txt");
-        cout << string(90, ' '); //añade 90 espacios vacios, durisimo no?
+        cout << string(80, ' '); //añade 90 espacios vacios, durisimo no?
         // Limpia el salto de linea que queda al leer lo que el usuario escribió en la consola
         cin.ignore();
         
@@ -255,11 +255,11 @@ void mostrarTablaClasificacion()
     else {
         // Mostramos los 10 mejores puntajes o menos si hay menos de 10 registros
         int limite = cantidad < 10 ? cantidad : 10;
-        cout <<"\n"<<string(77, ' ')<<"+------------- Top Puntajes --------------+\n";
+        cout <<"\n"<<string(65, ' ')<<"+------------- Top Puntajes --------------+\n";
         for (int i = 0; i < limite; ++i) 
-        cout <<"\n"<<string(85, ' ')<<i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts";
+        cout <<"\n"<<string(75, ' ')<<i+1 << ". " << listaTop[i].nombre << " - " << listaTop[i].puntuaje << " pts";
     }
-    cout <<"\n\n"<<string(77, ' ') << "+-----------------------------------------+\n\n";
+    cout <<"\n\n"<<string(65, ' ') << "+-----------------------------------------+\n\n";
     leerAscii("../model/assets/marco3.txt");
 }
 // Fin de la función mostrarTablaClasificacion

@@ -37,8 +37,8 @@ void configurarPantalla()
             CONSOLE_FONT_INFOEX cfi = { 0 };
             cfi.cbSize = sizeof(cfi);
             cfi.nFont = 0;
-            cfi.dwFontSize.X = 7;   
-            cfi.dwFontSize.Y = 12;  
+            cfi.dwFontSize.X = 5;   
+            cfi.dwFontSize.Y = 8;  
             cfi.FontFamily = FF_DONTCARE;
             cfi.FontWeight = FW_NORMAL;
             lstrcpyW(cfi.FaceName, L"Consolas");
@@ -49,7 +49,7 @@ void configurarPantalla()
 
     // 2. Ajustar dimensiones
     SHORT ancho = 170; 
-    SHORT alto = 60;   
+    SHORT alto = 100;   
 
     SMALL_RECT minWindow = { 0, 0, 1, 1 };
     SetConsoleWindowInfo(hOut, TRUE, &minWindow);

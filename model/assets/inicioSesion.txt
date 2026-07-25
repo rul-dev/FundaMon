@@ -3,9 +3,7 @@
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
-|                                                                                                                                                                      |
 |                                                                        Bienvenido a PokeDevs!                                                                        |
-|                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
@@ -28,12 +26,6 @@
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                               Seleccione una opcion (1/2 y presione enter)                                                           |
-|                                                                                                                                                                      |
-|                                                                                                                                                                      |
-|                                                                                                                                                                      |
-|                                                                                                                                                                      |
-|                                                                                                                                                                      |
-|                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |
 |                                                                                                                                                                      |

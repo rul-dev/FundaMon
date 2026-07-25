@@ -74,53 +74,80 @@ string crearBarraVida(int hpActual, int hpMax)
     return barra;
 }
 
-void imprimirSprite(const string& sprite, int margen)
+void moverCursor(int x, int y)
 {
-    string espacios(margen, ' ');
-    cout << espacios;
+    COORD pos = { (SHORT)x, (SHORT)y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+// Imprime texto simple en una coordenada exacta
+void imprimirEn(int x, int y, const string& texto)
+{
+    moverCursor(x, y);
+    cout << texto;
+}
+
+// Imprime un sprite multilinea empezando en (x,y), avanzando una fila por cada '\n'
+// Devuelve la fila donde terminó (útil para saber dónde poner el texto de abajo)
+int imprimirSpriteEnPosicion(const string& sprite, int x, int y)
+{
+    int fila = y;
+    string lineaActual;
+
+    auto flush = [&]() {
+        moverCursor(x, fila);
+        cout << lineaActual;
+        lineaActual.clear();
+        fila++;
+    };
+
     for (char c : sprite)
     {
-        if (c == '\r') continue;          // por si el archivo tiene CRLF
-        if (c == '\n')
-            cout << "\n" << espacios;
-        else
-            cout << c;
+        if (c == '\r') continue;
+        if (c == '\n') flush();
+        else lineaActual += c;
     }
-    cout << "\n";
+    if (!lineaActual.empty()) flush(); // por si el sprite no termina en \n
+
+    return fila; // fila siguiente disponible
 }
 
 void infoPokemon()
 {
-    // Calculamos la vida máxima real de los que están peleando en este momento
-    int hpMaxEnemigo = obtenerHpMaximo(equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre);
-    int hpMaxAliado = obtenerHpMaximo(equipoAliado.pokemon[pokemonActivo].nombre);
+    system("cls");
 
     leerAscii("../model/assets/marcoArriba.txt");
+    int hpMaxEnemigo = obtenerHpMaximo(equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre);
+    int hpMaxAliado  = obtenerHpMaximo(equipoAliado.pokemon[pokemonActivo].nombre);
 
-    // ==================== ZONA DEL RIVAL ====================
-    cout << string(110, ' ') << "* RIVAL: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre << " - Nv.60\n";
+    // Esto es como las "columnas" o coordenadas en las que cada pokemon se va a cargar
+    const int COL_RIVAL = 90;
+    const int COL_ALIADO = 2;
+    const int FILA_INICIO = 2;
 
-    // Imprimimos la vida junto con la nueva barra de progreso
-    cout << string(110, ' ') << "  HP: " << equipoEnemigo.pokemon[pokemonEnemigoActivo].hp << "/" << hpMaxEnemigo
-         << " " << crearBarraVida(equipoEnemigo.pokemon[pokemonEnemigoActivo].hp, hpMaxEnemigo) << "\n\n";
+    //los sprites cargados lado a lado
+    int filaFinRival  = imprimirSpriteEnPosicion(equipoEnemigo.pokemon[pokemonEnemigoActivo].spriteAscii, COL_RIVAL, FILA_INICIO);
+    int filaFinAliado = imprimirSpriteEnPosicion(equipoAliado.pokemon[pokemonActivo].spriteAscii, COL_ALIADO, FILA_INICIO);
 
-    // Imprimimos el sprite del enemigo (Le damos margen de 90 para que se vea a la derecha)
-    imprimirSprite(equipoEnemigo.pokemon[pokemonEnemigoActivo].spriteAscii, 90);
+    // es para usar la fila más baja de las dos para poner el resto del contenido abajo, sin pisar nada, pa que quede bien
+    int filaSiguiente = max(filaFinRival, filaFinAliado) + 1;
 
-    leerAscii("../model/assets/marco2.txt");
-    leerAscii("../model/assets/marco2.txt");
+    //info del rival debajo de su "sprite"
+    imprimirEn(COL_RIVAL, filaSiguiente,
+        "* RIVAL: " + equipoEnemigo.pokemon[pokemonEnemigoActivo].nombre + " - Nv.60");
+    imprimirEn(COL_RIVAL, filaSiguiente + 1,
+        "  HP: " + to_string(equipoEnemigo.pokemon[pokemonEnemigoActivo].hp) + "/" + to_string(hpMaxEnemigo)
+        + " " + crearBarraVida(equipoEnemigo.pokemon[pokemonEnemigoActivo].hp, hpMaxEnemigo));
 
-    // ==================== ZONA DE TU POKEMON ====================
+    //info del aliado debajo de su "sprite"
+    imprimirEn(COL_ALIADO, filaSiguiente,
+        "* TU POKEMON: " + equipoAliado.pokemon[pokemonActivo].nombre + " - Nv.60");
+    imprimirEn(COL_ALIADO, filaSiguiente + 1,
+        "  HP: " + to_string(equipoAliado.pokemon[pokemonActivo].hp) + "/" + to_string(hpMaxAliado)
+        + " " + crearBarraVida(equipoAliado.pokemon[pokemonActivo].hp, hpMaxAliado));
 
-    // Imprimimos tu sprite (Le damos margen de 30, igual que a tus textos)
-    imprimirSprite(equipoAliado.pokemon[pokemonActivo].spriteAscii, 30);
-
-    cout << "\n"
-         << string(30, ' ') << "* TU POKEMON: " << equipoAliado.pokemon[pokemonActivo].nombre << " - Nv.60\n";
-
-    // Imprimimos la vida junto con la nueva barra de progreso
-    cout << string(30, ' ') << "  HP: " << equipoAliado.pokemon[pokemonActivo].hp << "/" << hpMaxAliado
-         << " " << crearBarraVida(equipoAliado.pokemon[pokemonActivo].hp, hpMaxAliado) << "\n\n";
+    // Movemos el cursor lejos de todo para que el menú que imprimas después no pise nada
+    moverCursor(0, filaSiguiente + 4);
 }
 
 // Función para mostrar los 4 ataques y validar la opción
