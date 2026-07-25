@@ -74,16 +74,17 @@ string crearBarraVida(int hpActual, int hpMax)
     return barra;
 }
 
-void imprimirSprite(string sprite, int margen)
+void imprimirSprite(const string& sprite, int margen)
 {
     string espacios(margen, ' ');
-    cout << espacios; // Empujamos la primera línea
+    cout << espacios;
     for (char c : sprite)
     {
-        cout << c;
-        // Si hay un salto de línea en el dibujo, volvemos a aplicar el margen
+        if (c == '\r') continue;          // por si el archivo tiene CRLF
         if (c == '\n')
-            cout << espacios;
+            cout << "\n" << espacios;
+        else
+            cout << c;
     }
     cout << "\n";
 }

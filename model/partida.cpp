@@ -96,6 +96,10 @@ void guardarPartida(){
 
 void iniciarSesion(){
     int opcionCarga = 0;
+
+    system("cls"); 
+    cout << flush;
+
     leerAscii("../model/assets/inicioSesion.txt");
     // Validamos que la opción sea 1 o 2, si no el bucle sigue
     while (!(opcionCarga >= 1 && opcionCarga <= 2)){
